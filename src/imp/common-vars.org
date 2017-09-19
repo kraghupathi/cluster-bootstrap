@@ -105,9 +105,9 @@ Variables for cluster are defined in the following section
 http_proxy_name: http://proxy.iiit.ac.in:8080 
 https_proxy_name: http://proxy.iiit.ac.in:8080
 
-hostmachine_ip: 10.2.59.2
-router_ip: 10.2.59.223  
-config_server_ip: 10.2.59.224
+hostmachine_ip: 10.2.59.220
+router_ip: 10.2.59.221  
+config_server_ip: 10.2.59.222
 
 dns1_server: 10.4.12.160
 dns2_server: 10.4.12.220
@@ -133,8 +133,8 @@ corkscrew_url2: http://wiki.kartbuilding.net/corkscrew-2.0.tar.gz
 
 centos_template: http://download.openvz.org/template/precreated/centos-6-x86_64.tar.gz
 
-systems_model_repo: git@altssh.bitbucket.org:vlead/systems-model.git
-
+#systems_model_repo: git@altssh.bitbucket.org:vlead/systems-model.git
+systems_model_repo: git@gitlab.com:vlead-systems/systems-model.git
 systems_model_dest: "{{corkscrew_dest}}/systems-model"
 
 ipaddress:
@@ -142,7 +142,7 @@ ipaddress:
      router: "{{router_ip}}"
      config_server: "{{config_server_ip}}"
 
-clustername: base8
+clustername: ovpl
 
 dnsaddress:
       dns1: "{{dns1_server}}"
@@ -156,7 +156,8 @@ proxy_port: 8080
 
 smtp_smart_host: stpi-router.vlabs.ac.in
 
-setup_ovpl_centos: https://github.com/vlead/cluster-setup-ovpl-centos.git
+#setup_ovpl_centos: https://github.com/vlead/cluster-setup-ovpl-centos.git
+setup_ovpl_centos: https://github.com/vlead/setup-ovpl-centos.git
 
 consumer_key: "949417609070-6sj9jiumei4k858v2vh39m1e2i8ngvrs.apps.googleusercontent.com"
 consumer_secret: "m15wAK1ln46LevbvuiRqenOh"
