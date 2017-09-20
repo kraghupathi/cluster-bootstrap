@@ -145,7 +145,7 @@
   environment: "{{proxy_env}}"
 
 - name: Downloading Corkscrew tar file
-  get_url: url={{corkscrew_url1}} dest={{corckscrew_dest}}
+  get_url: url={{corkscrew_url1}} dest={{corkscrew_dest}}
   environment: "{{proxy_env}}"
   ignore_errors: yes
 
@@ -182,7 +182,7 @@
   template: src=ssh-config dest=~/.ssh/config mode=400
 
 
-- name: clonning systems-model repo from bitbucket
+- name: clonning systems-model repo from gitlab
   git: repo="{{systems_model_repo}}" dest="{{systems_model_dest}}" version=cluster-automation
   environment: "{{proxy_env}}"
 
@@ -199,17 +199,19 @@ dependencies:
 
 *** SSH configuration to clone to systems-model from bitbucket.org 
     This file contains all necessary data needed to clone a repository
-    systems-model from http://bitbucket.org
+    systems-model from http://gitlab.org
 
     The following file is needed when the network proxy is blocking
     outgoing packets on port =22= and trying to clone a repository
     over http,https and over ssh.
 
 #+BEGIN_SRC yml :tangle roles/basesetup/templates/ssh-config
-Host altssh.bitbucket.org
+#Host altssh.bitbucket.org
+Host gitlab.com
 User git
 Port 443
-Hostname altssh.bitbucket.org
+#Hostname altssh.bitbucket.org
+Hostname altssh.gitlab.com
 TCPKeepAlive yes
 IdentityFile "~/.ssh/id_rsa"
 IdentitiesOnly yes
@@ -234,13 +236,14 @@ ProxyCommand corkscrew {{corkscrew_proxy}} {{proxy_port}} %h %p
 
 ** Setup Virtualization on host machine
 *** OpenVZ Virtualization
-**** Clone cluster-setup-ovpl-centos repository
+**** Clone setup-ovpl-centos repository
     - This script =clone.yml= installs =git=. 
-    - Clones [[./https://github.com/vlead/cluster-setup-ovpl-centos][cluster-setup-ovpl-centos]] repository from
+#    - Clones [[./https://github.com/vlead/cluster-setup-ovpl-centos][cluster-setup-ovpl-centos]] repository from
+    - Clones [[./https://github.com/vlead/setup-ovpl-centos][setup-ovpl-centos]] repository from
       http://github.com and saves it in destination mentioned in
       =dest= parameter. 
  
-#+BEGIN_SRC yml :tangle roles/openvz/tasks/clone-cluster-setup-ovpl-centos.yml
+#+BEGIN_SRC yml :tangle roles/openvz/tasks/clone-setup-ovpl-centos.yml
 ---
     - name: installing git
       yum: name=git state=installed
@@ -251,8 +254,8 @@ ProxyCommand corkscrew {{corkscrew_proxy}} {{proxy_port}} %h %p
     - name: changing directory to clone setup-ovpl-centos 
       git: 
          repo: "{{setup_ovpl_centos}}"
-         dest: ~/cluster-setup-ovpl-centos
-         version: master
+         dest: ~/setup-ovpl-centos
+         version: develop
       environment: "{{proxy_env}}"
       ignore_errors: yes
       register: out
@@ -273,22 +276,33 @@ ProxyCommand corkscrew {{corkscrew_proxy}} {{proxy_port}} %h %p
 ---
     - name: Settiing proxy in config.sh to install openvz
       replace: 
-          path: ~/cluster-setup-ovpl-centos/scripts/config.sh
+          path: ~/setup-ovpl-centos/scripts/config.sh
           regexp: 'export http_proxy=""'
           replace: 'export http_proxy="{{proxy_env.http_proxy}}"'
      
     - name: Settiing proxy in config.sh to install openvz
       replace: 
-          path: ~/cluster-setup-ovpl-centos/scripts/config.sh
+          path: ~/setup-ovpl-centos/scripts/config.sh
           regexp: 'export https_proxy=""'
           replace: 'export https_proxy="{{proxy_env.https_proxy}}"'
 
-    
+    - name: Comment install dependencies 
+      command: 'sed -i "/install_dependencies/s/^/#/g" ~/setup-ovpl-centos/scripts/centos_prepare_ovpl.sh'
+      ignore_errors: yes
+      register: out
+    - debug: var=out.stdout_lines
+   
+    - name: Comment install mongodb 
+      command: 'sed -i "/install_mongodb/s/^/#/g" ~/setup-ovpl-centos/scripts/centos_prepare_ovpl.sh'
+      ignore_errors: yes
+      register: out
+    - debug: var=out.stdout_lines
+
     - name: running centos_prepare_ovpl.sh shell script
       command: ./centos_prepare_ovpl.sh
       register: out 
       args: 
-        chdir: ~/cluster-setup-ovpl-centos/scripts/
+        chdir: ~/setup-ovpl-centos/scripts/
     - debug: var=out.stdout_lines
 
 
@@ -338,7 +352,7 @@ dependencies:
 #+BEGIN_SRC yml :tangle roles/openvz/tasks/main.yml 
 ---
 # tasks file for openvz
-- include: clone-cluster-setup-ovpl-centos.yml
+- include: clone-setup-ovpl-centos.yml
 - include: install-openvz.yml
 - include: openvz-config.yml
 - name: Restarting
