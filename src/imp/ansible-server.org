@@ -641,29 +641,64 @@ dependencies:
   remote_user: root
   
   tasks:
-   - name: Cloning cluster-setup-ovpl-centos repo from github 
-     shell: "{{export_proxy}} && git clone {{setup_ovpl_centos}} && cd cluster-setup-ovpl-centos &&  git checkout cluster-ads"
+   - name: Cloning setup-ovpl-centos repo from github 
+     shell: "{{export_proxy}} && git clone {{setup_ovpl_centos}} && cd setup-ovpl-centos &&  git checkout develop"
      ignore_errors: yes
      register: out
    - debug: var=out.stdout_lines
 
    - name: Setting proxy in config.sh to install MongoDB
      replace: 
-          path: ~/cluster-setup-ovpl-centos/scripts/config.sh
+          path: ~/setup-ovpl-centos/scripts/config.sh
           regexp: 'export http_proxy=""'
           replace: 'export http_proxy="{{proxy_env.http_proxy}}"'
      
    - name: Settiing proxy in config.sh to install openvz
      replace: 
-          path: ~/cluster-setup-ovpl-centos/scripts/config.sh
+          path: ~/setup-ovpl-centos/scripts/config.sh
           regexp: 'export https_proxy=""'
           replace: 'export https_proxy="{{proxy_env.https_proxy}}"'
 
+   - name: Comment install dependencies 
+     command: 'sed -i "/install_openvz/s/^/#/g" ~/setup-ovpl-centos/scripts/centos_prepare_ovpl.sh'
+     ignore_errors: yes
+     register: out
+   - debug: var=out.stdout_lines
 
 
    - name: Running centos-prepare-ovpl shell script to install mongodb and other required packages for ADS
-     shell: "{{export_proxy}} && cd cluster-setup-ovpl-centos/scripts && ./centos_prepare_ovpl.sh"
+     shell: "{{export_proxy}} && cd setup-ovpl-centos/scripts && ./centos_prepare_ovpl.sh"
      register: out  
+   - debug: var=out.stdout_lines
+
+   - name: Downloading python tornado-4.3 file 
+     get_url: 
+        url: "https://pypi.python.org/packages/source/t/tornado/tornado-4.3.tar.gz"
+        dest: ~/tornado-4.3.tar.gz
+     register: new_archive
+     ignore_errors: yes
+
+
+   - name: Extract torando-4.3tar.gz file
+     unarchive:
+        src: ~/tornado-4.3.tar.gz
+        dest: ~/
+     ignore_errors: yes
+ 
+   - name: Run setu.py file
+     command: python ~/tornado-4.3/setup.py build
+     ignore_errors: yes
+     register: out
+     args:
+      chdir: ~/tornado-4.3
+   - debug: var=out.stdout_lines
+
+   - name: install setu.py file
+     command: python ~/tornado-4.3/setup.py install
+     ignore_errors: yes
+     register: out
+     args:
+      chdir: ~/tornado-4.3
    - debug: var=out.stdout_lines
 
    - name: Copy sample_config.json to config.json

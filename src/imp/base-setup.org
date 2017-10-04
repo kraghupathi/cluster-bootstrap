@@ -145,7 +145,7 @@
   environment: "{{proxy_env}}"
 
 - name: Downloading Corkscrew tar file
-  get_url: url={{corkscrew_url1}} dest={{corckscrew_dest}}
+  get_url: url={{corkscrew_url1}} dest={{corkscrew_dest}}
   environment: "{{proxy_env}}"
   ignore_errors: yes
 
@@ -206,10 +206,12 @@ dependencies:
     over http,https and over ssh.
 
 #+BEGIN_SRC yml :tangle roles/basesetup/templates/ssh-config
-Host altssh.bitbucket.org
+#Host altssh.bitbucket.org
+Host gitlab.com
 User git
 Port 443
-Hostname altssh.bitbucket.org
+#Hostname altssh.bitbucket.org
+Hostname altssh.gitlab.com
 TCPKeepAlive yes
 IdentityFile "~/.ssh/id_rsa"
 IdentitiesOnly yes
@@ -240,7 +242,7 @@ ProxyCommand corkscrew {{corkscrew_proxy}} {{proxy_port}} %h %p
       http://github.com and saves it in destination mentioned in
       =dest= parameter. 
  
-#+BEGIN_SRC yml :tangle roles/openvz/tasks/clone-cluster-setup-ovpl-centos.yml
+#+BEGIN_SRC yml :tangle roles/openvz/tasks/clone-setup-ovpl-centos.yml
 ---
     - name: installing git
       yum: name=git state=installed
@@ -251,7 +253,7 @@ ProxyCommand corkscrew {{corkscrew_proxy}} {{proxy_port}} %h %p
     - name: changing directory to clone setup-ovpl-centos 
       git: 
          repo: "{{setup_ovpl_centos}}"
-         dest: ~/cluster-setup-ovpl-centos
+         dest: ~/setup-ovpl-centos
          version: master
       environment: "{{proxy_env}}"
       ignore_errors: yes
@@ -273,22 +275,32 @@ ProxyCommand corkscrew {{corkscrew_proxy}} {{proxy_port}} %h %p
 ---
     - name: Settiing proxy in config.sh to install openvz
       replace: 
-          path: ~/cluster-setup-ovpl-centos/scripts/config.sh
+          path: ~/setup-ovpl-centos/scripts/config.sh
           regexp: 'export http_proxy=""'
           replace: 'export http_proxy="{{proxy_env.http_proxy}}"'
      
     - name: Settiing proxy in config.sh to install openvz
       replace: 
-          path: ~/cluster-setup-ovpl-centos/scripts/config.sh
+          path: ~/setup-ovpl-centos/scripts/config.sh
           regexp: 'export https_proxy=""'
           replace: 'export https_proxy="{{proxy_env.https_proxy}}"'
-
+    - name: Comment install dependencies 
+      command: 'sed -i "/install_dependencies/s/^/#/g" ~/setup-ovpl-centos/scripts/centos_prepare_ovpl.sh'
+      ignore_errors: yes
+      register: out
+    - debug: var=out.stdout_lines
+   
+    - name: Comment install mongodb 
+      command: 'sed -i "/install_mongodb/s/^/#/g" ~/setup-ovpl-centos/scripts/centos_prepare_ovpl.sh'
+      ignore_errors: yes
+      register: out
+    - debug: var=out.stdout_lines
     
     - name: running centos_prepare_ovpl.sh shell script
       command: ./centos_prepare_ovpl.sh
       register: out 
       args: 
-        chdir: ~/cluster-setup-ovpl-centos/scripts/
+        chdir: ~/setup-ovpl-centos/scripts/
     - debug: var=out.stdout_lines
 
 
@@ -338,7 +350,7 @@ dependencies:
 #+BEGIN_SRC yml :tangle roles/openvz/tasks/main.yml 
 ---
 # tasks file for openvz
-- include: clone-cluster-setup-ovpl-centos.yml
+- include: clone-setup-ovpl-centos.yml
 - include: install-openvz.yml
 - include: openvz-config.yml
 - name: Restarting
