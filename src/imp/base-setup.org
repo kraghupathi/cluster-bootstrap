@@ -20,6 +20,11 @@
     
 #+BEGIN_SRC yml :tangle roles/basesetup/tasks/br0.yml
 ---
+   - name: install the latest version of libselinux-python
+     yum:
+      name: libselinux-python
+      state: latest
+
    - copy:  
        content: ""      
        dest: "/etc/sysconfig/network-scripts/ifcfg-br0"
@@ -42,6 +47,11 @@
 
    - name: Network restart
      service: name=network state=restarted 
+
+  - name: Bridge br0 network interface up
+    command: ifup br0
+    register: out
+  - debug: var=out.stdout_lines
 
 ...
  
@@ -96,13 +106,18 @@
      name: network
      state: restarted
 
-
-  - name: Manager off
-    command: chkconfig NetworkManager off
+  - name: Bridge br0 network interface up
+    command: ifup br0
     register: out
   - debug: var=out.stdout_lines
 
-  - name: Manager on
+  - name: Network Manager off
+    command: chkconfig NetworkManager off
+    register: out
+    ignore_errors: yes
+  - debug: var=out.stdout_lines
+
+  - name: Network on
     command: chkconfig network on
     register: out
   - debug: var=out.stdout_lines
@@ -183,7 +198,7 @@
 
 
 - name: clonning systems-model repo from bitbucket
-  git: repo="{{systems_model_repo}}" dest="{{systems_model_dest}}" version=cluster-automation
+  git: repo="{{systems_model_repo}}" dest="{{systems_model_dest}}" version=cluster-automation accept_hostkey=true
   environment: "{{proxy_env}}"
 
 #+END_SRC
@@ -284,26 +299,14 @@ ProxyCommand corkscrew {{corkscrew_proxy}} {{proxy_port}} %h %p
           path: ~/setup-ovpl-centos/scripts/config.sh
           regexp: 'export https_proxy=""'
           replace: 'export https_proxy="{{proxy_env.https_proxy}}"'
-    - name: Comment install dependencies 
-      command: 'sed -i "/install_dependencies/s/^/#/g" ~/setup-ovpl-centos/scripts/centos_prepare_ovpl.sh'
-      ignore_errors: yes
+
+    - name: running install_openvz.sh shell script
+      command: ./install_openvz.sh
       register: out
-    - debug: var=out.stdout_lines
-   
-    - name: Comment install mongodb 
-      command: 'sed -i "/install_mongodb/s/^/#/g" ~/setup-ovpl-centos/scripts/centos_prepare_ovpl.sh'
-      ignore_errors: yes
-      register: out
-    - debug: var=out.stdout_lines
-    
-    - name: running centos_prepare_ovpl.sh shell script
-      command: ./centos_prepare_ovpl.sh
-      register: out 
-      args: 
+      args:
         chdir: ~/setup-ovpl-centos/scripts/
     - debug: var=out.stdout_lines
-
-
+    
 #+END_SRC
 
 **** Configure OpenVZ configuration files

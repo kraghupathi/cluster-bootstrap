@@ -11,9 +11,9 @@ HTTPS_PROXY="http://proxy.iiit.ac.in:8080"
 ## So that these three machines will get internet connection.
 ## Router and config-servers are containers.
 ## Following fields should be taken from LAN network which has internet
-HOSTMACHINE_IP=10.2.59.220
-ROUTER_IP=10.2.59.221
-CONFIG_SERVER_IP=10.2.59.222
+HOSTMACHINE_IP=10.2.57.204
+ROUTER_IP=10.2.57.205
+CONFIG_SERVER_IP=10.2.57.206
 DNS1=10.4.12.160
 DNS2=10.4.12.220
 INTERNET_GATEWAY=10.2.56.1
@@ -23,7 +23,7 @@ NET_MASK=255.255.252.0
 CONTAINER_ROOT_PASSWORD=rootpassword
 
 ## Set name of the cluster
-CLUSTERNAME=ovpl
+CLUSTERNAME=base9
 
 ## Server name through which mails will be delivered to specified email address in /etc/mail/sendmail.mc. 
 #Each cluster container will be sending mails through this server
