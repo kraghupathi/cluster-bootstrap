@@ -269,7 +269,7 @@ ProxyCommand corkscrew {{corkscrew_proxy}} {{proxy_port}} %h %p
      - Exports network proxy through a =proxy_env.http_proxy=
        variable. It is defined in [[./common-vars.org][common-vars]] file.
      - Installs =OpenVZ= through a shell script called
-       =./centos_prepare_ovpl.sh=
+       =./install_openvz.sh=
      
 
 #+BEGIN_SRC yml :tangle roles/openvz/tasks/install-openvz.yml
@@ -286,25 +286,12 @@ ProxyCommand corkscrew {{corkscrew_proxy}} {{proxy_port}} %h %p
           regexp: 'export https_proxy=""'
           replace: 'export https_proxy="{{proxy_env.https_proxy}}"'
 
-    - name: Comment install dependencies 
-      command: 'sed -i "/install_dependencies/s/^/#/g" ~/setup-ovpl-centos/scripts/centos_prepare_ovpl.sh'
-      ignore_errors: yes
-      register: out
-    - debug: var=out.stdout_lines
-   
-    - name: Comment install mongodb 
-      command: 'sed -i "/install_mongodb/s/^/#/g" ~/setup-ovpl-centos/scripts/centos_prepare_ovpl.sh'
-      ignore_errors: yes
-      register: out
-    - debug: var=out.stdout_lines
-
-    - name: running centos_prepare_ovpl.sh shell script
-      command: ./centos_prepare_ovpl.sh
+    - name: running install_openvz.sh shell script
+      command: ./install_openvz.sh
       register: out 
       args: 
         chdir: ~/setup-ovpl-centos/scripts/
     - debug: var=out.stdout_lines
-
 
 #+END_SRC
 

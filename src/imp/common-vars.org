@@ -159,8 +159,8 @@ smtp_smart_host: stpi-router.vlabs.ac.in
 #setup_ovpl_centos: https://github.com/vlead/cluster-setup-ovpl-centos.git
 setup_ovpl_centos: https://github.com/vlead/setup-ovpl-centos.git
 
-consumer_key: "949417609070-6sj9jiumei4k858v2vh39m1e2i8ngvrs.apps.googleusercontent.com"
-consumer_secret: "m15wAK1ln46LevbvuiRqenOh"
+consumer_key: "915782477400-2k7snq8o393oiffqtn8vk4aor4c50q85.apps.googleusercontent.com"
+consumer_secret: "aT4fScAPTjWuUGSp21kTh_Wg"
 
 
 #+END_SRC

@@ -643,7 +643,7 @@ dependencies:
   tasks:
 #   - name: Cloning cluster-setup-ovpl-centos repo from github 
    - name: Cloning setup-ovpl-centos repo from github 
-     shell: "{{export_proxy}} && git clone {{setup_ovpl_centos}} && cd setup-ovpl-centos &&  git checkout develop"
+     shell: "{{export_proxy}} && git clone {{setup_ovpl_centos}} && cd setup-ovpl-centos &&  git checkout master"
      ignore_errors: yes
      register: out
    - debug: var=out.stdout_lines
