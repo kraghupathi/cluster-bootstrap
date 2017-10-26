@@ -20,6 +20,11 @@
     
 #+BEGIN_SRC yml :tangle roles/basesetup/tasks/br0.yml
 ---
+   - name: install the latest version of Apache
+     yum:
+      name: libselinux-python
+      state: latest
+
    - copy:  
        content: ""      
        dest: "/etc/sysconfig/network-scripts/ifcfg-br0"
@@ -183,7 +188,7 @@
 
 
 - name: clonning systems-model repo from gitlab
-  git: repo="{{systems_model_repo}}" dest="{{systems_model_dest}}" version=cluster-automation
+  git: repo="{{systems_model_repo}}" dest="{{systems_model_dest}}" version=cluster-automation accept_hostkey=true 
   environment: "{{proxy_env}}"
 
 #+END_SRC
