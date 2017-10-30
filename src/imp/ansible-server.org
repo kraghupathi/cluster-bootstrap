@@ -682,11 +682,20 @@ dependencies:
       chdir: ~/tornado-4.3
    - debug: var=out.stdout_lines
 
+   - name: Install certifi dependecy for tornado-4.3
+     shell: "{{export_proxy}} && wget https://pypi.python.org/packages/20/d0/3f7a84b0c5b89e94abbd073a5f00c7176089f526edb056686751d5064cbd/certifi-2017.7.27.1.tar.gz#md5=48e8370da8b370a16e223ee9c7b6b063 -O ~/certifi.tar.gz"
+
+   - name: Un-taring certifi
+     unarchive:  src=~/certifi.tar.gz  dest=~/ remote_src=yes
+
+   - name: Install certifi
+     shell: {{export_proxy}} && python setup.py install
+     args:
+      chdir: ~/certifi
+
    - name: Install tornado dependencies
-     command: "{{export_proxy}} && yum install {{item}}
-     with_items:
-      - python2-backports_abc
-      - python-singledispatch.noarch
+     shell: "{{export_proxy}} && yum install python2-backports_abc python-singledispatch -y"
+   
 
    - name: install setu.py file
      shell: {{export_proxy}} && python setup.py install
