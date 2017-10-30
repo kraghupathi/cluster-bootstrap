@@ -691,10 +691,10 @@ dependencies:
    - name: Install certifi
      shell: {{export_proxy}} && python setup.py install
      args:
-      chdir: ~/certifi
+      chdir: ~/certifi-2017.7.27.1/
 
    - name: Install tornado dependencies
-     shell: "{{export_proxy}} && yum install python2-backports_abc python-singledispatch -y"
+     shell: "{{export_proxy}} && yum install python2-backports_abc python-singledispatch python-backports-ssl_match_hostname -y"
    
 
    - name: install setu.py file
