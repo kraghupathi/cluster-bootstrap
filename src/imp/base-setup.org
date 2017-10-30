@@ -142,13 +142,13 @@
     while cloning repository using ssh
 
     *To run this ansible playbook/script, host machine's public_key
-    =id_rsa.pub= should be added in [[https://bitbucket.org/vlead/systems-model/admin/access-keys/][access keys on bitbucket.org]]
+    =id_rsa.pub= should be added in [[https://gitlab.com/vlead-systems/systems-model/settings/repository][Deploy keys on gitlab.com]]
     manually*.
 
 #+BEGIN_SRC yml :tangle roles/basesetup/tasks/corkscrew_installation.yml
 ---
 - name: Installing Development tools
-  yum: name="Development tools" state=installed
+  yum: name="@Development tools" state=installed
   environment: "{{proxy_env}}"
 
 - name: Install python-pip
