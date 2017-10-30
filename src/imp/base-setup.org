@@ -28,7 +28,7 @@
       name: libselinux-python
       state: latest
 
-   - copy: Copying ifcfg-br0 template to /etc/sysconfig/network-scripts/ifcfg-br0 on host machine
+   - copy: 
        content: ""      
        dest: "/etc/sysconfig/network-scripts/ifcfg-br0"
    
@@ -65,7 +65,7 @@
 #+BEGIN_SRC yml :tangle roles/basesetup/tasks/eth0.yml
 ---
    
-   - copy:  Copying ifcfg-eth0 template to /etc/sysconfig/network-scripts/ifcfg-eth0 on host machine
+   - copy: 
       content: ""      
       dest: "/etc/sysconfig/network-scripts/ifcfg-eth0" 
   
