@@ -708,6 +708,20 @@ dependencies:
      command: cp sample_config.json config.json 
      args: 
        chdir: ovpl/config/
+
+   - name: Install dependencies
+     yum: name=epel-release state=installed
+   - name: Install dependencies
+     yum: name=mod_wsgi state=installed
+   - name: Install dependencies
+     yum: name=python-pip state=installed
+   - name: Install 
+     shell: '{{export_proxy}} &&  python setup.py install'
+     register: result
+     args:
+       chdir: ~/ovpl/src/ads-web-app/
+   - debug: var=result.stdout_lines
+
    - name: COOKIE UPDATE
      replace: 
        path: ovpl/config/config.json
@@ -780,18 +794,6 @@ dependencies:
       line: 'SUBNET_BRIDGE = "br1"'
       state: present
   
-   - name: Install dependencies
-     yum: name=epel-release state=installed
-   - name: Install dependencies
-     yum: name=mod_wsgi state=installed
-   - name: Install dependencies
-     yum: name=python-pip state=installed
-   - name: Install 
-     shell: '{{export_proxy}} &&  python setup.py install'
-     register: result
-     args:
-       chdir: ~/ovpl/src/ads-web-app/
-   - debug: var=result.stdout_lines
      
   
    - name: Rsync files
