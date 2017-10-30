@@ -198,7 +198,7 @@
   template: src=ssh-config dest=~/.ssh/config mode=400
 
 
-- name: clonning systems-model repo from bitbucket
+- name: clonning systems-model repo
   git: repo="{{systems_model_repo}}" dest="{{systems_model_dest}}" version=cluster-automation accept_hostkey=yes
   environment: "{{proxy_env}}"
 
@@ -224,15 +224,14 @@ dependencies:
 #+BEGIN_SRC yml :tangle roles/basesetup/templates/ssh-config
 #Host altssh.bitbucket.org
 Host gitlab.com
-User git
-Port 443
-Port 22
-#Hostname altssh.bitbucket.org
-Hostname altssh.gitlab.com
-TCPKeepAlive yes
-IdentityFile "~/.ssh/id_rsa"
-IdentitiesOnly yes
-ProxyCommand corkscrew {{corkscrew_proxy}} {{proxy_port}} %h %p
+ Hostname altssh.gitlab.com
+ User git
+ Port 443
+ TCPKeepAlive yes
+ IdentityFile "~/.ssh/id_rsa"
+ IdentitiesOnly yes
+ PreferredAuthentications publickey
+ ProxyCommand corkscrew {{corkscrew_proxy}} {{proxy_port}} %h %p
 
 #+END_SRC
 
@@ -361,4 +360,5 @@ dependencies:
 - name: Restarting
   command: reboot
 #+END_SRC
+     
      
