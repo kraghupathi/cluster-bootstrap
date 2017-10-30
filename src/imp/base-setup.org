@@ -48,10 +48,10 @@
    - name: Network restart
      service: name=network state=restarted 
 
-  - name: Bridge br0 network interface up
-    command: ifup br0
-    register: out
-  - debug: var=out.stdout_lines
+#   - name: Bridge br0 network interface up
+#    command: ifup br0
+#    register: out
+#  - debug: var=out.stdout_lines
 
 ...
  
@@ -134,8 +134,9 @@
     network blocks outgoing =ssh= port over =the http_proxy=.
    
     Purpose of installing corckscrew here is, need to clone
-    [[https://bitbucket.org/vlead/systems-model][systems-model]] from bitbucket over =http+ssh=. In this case,
-    corkscrew is needed to clone repository.Corkscrew resolves port problem while cloning repository using ssh
+    [[https://bitbucket.org/vlead/systems-model][systems-model]] from GitLab over =http+ssh=. In this case, corkscrew
+    is needed to clone repository.Corkscrew resolves port problem
+    while cloning repository using ssh
 
     *To run this ansible playbook/script, host machine's public_key
     =id_rsa.pub= should be added in [[https://bitbucket.org/vlead/systems-model/admin/access-keys/][access keys on bitbucket.org]]
@@ -198,7 +199,7 @@
 
 
 - name: clonning systems-model repo from bitbucket
-  git: repo="{{systems_model_repo}}" dest="{{systems_model_dest}}" version=cluster-automation accept_hostkey=true
+  git: repo="{{systems_model_repo}}" dest="{{systems_model_dest}}" version=cluster-automation accept_hostkey=yes
   environment: "{{proxy_env}}"
 
 #+END_SRC
@@ -225,6 +226,7 @@ dependencies:
 Host gitlab.com
 User git
 Port 443
+Port 22
 #Hostname altssh.bitbucket.org
 Hostname altssh.gitlab.com
 TCPKeepAlive yes
@@ -248,7 +250,7 @@ ProxyCommand corkscrew {{corkscrew_proxy}} {{proxy_port}} %h %p
 #+End_SRC
  
 
-
+  
 ** Setup Virtualization on host machine
 *** OpenVZ Virtualization
 **** Clone cluster-setup-ovpl-centos repository

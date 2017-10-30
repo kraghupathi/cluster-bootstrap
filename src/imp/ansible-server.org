@@ -376,8 +376,8 @@ This script downloads emacs- org-mode
 - name: Setting StrictHostKeyChecking to  no
   command: ssh root@10.100.1.9 'sed -i "/^StrictHostKeyChecking.*/d" /etc/ssh/ssh_config && echo StrictHostKeyChecking=no >> /etc/ssh/ssh_config'
 
-- name: Copying keys 
-  command: ssh root@10.100.1.9 'sshpass -p "vlead123" ssh-copy-id root@"{{ipaddress.hostmachine}}"'
+- name: Copying public key of ADS server to Host machine
+  command: ssh root@10.100.1.9 'sshpass -p "{{hostmachine_password}}" ssh-copy-id root@"{{ipaddress.hostmachine}}"'
   register: out
 - debug: var=out.stdout_lines
 
@@ -385,8 +385,7 @@ This script downloads emacs- org-mode
   debug: msg= "{{ ssh_keys.stdout }}"
   tags:
    - ssh
-
-- name: deploying keys on localhost at vlead user
+- name: deploying keys on config-server's vlead user
   authorized_key: user=vlead key= "{{ item }}"
   delegate_to: "{{ipaddress.config_server}}"
   with_items:
@@ -394,10 +393,10 @@ This script downloads emacs- org-mode
   tags:
     - ssh
 
-- name: Copy template
+- name: Adding ADS server configuration template into Systems model, so that it becomes one of the server nodes
   template: src=ads-setup.yml dest=systems-model/build/{{clustername}}/
 
-- name: run ads_setup 
+- name: Configuring ads server  from ansible container
   command: ansible-playbook -i hosts ads-setup.yml 
   register: out
   args: 
@@ -675,27 +674,22 @@ dependencies:
      get_url: 
         url: "https://pypi.python.org/packages/source/t/tornado/tornado-4.3.tar.gz"
         dest: ~/tornado-4.3.tar.gz
-     register: new_archive
-     ignore_errors: yes
-
+     environment: "{{export_proxy}}"
 
    - name: Extract torando-4.3tar.gz file
-     unarchive:
-        src: ~/tornado-4.3.tar.gz
-        dest: ~/
-     ignore_errors: yes
+     unarchive:  src=~/tornado-4.3.tar.gz  dest=~/ remote_src=yes
  
    - name: Run setu.py file
-     command: python ~/tornado-4.3/setup.py build
-     ignore_errors: yes
+     command: python setup.py build
+     environment: "{{export_proxy}}"
      register: out
      args:
       chdir: ~/tornado-4.3
    - debug: var=out.stdout_lines
 
    - name: install setu.py file
-     command: python ~/tornado-4.3/setup.py install
-     ignore_errors: yes
+     command: python setup.py install
+     environment: "{{export_proxy}}"
      register: out
      args:
       chdir: ~/tornado-4.3

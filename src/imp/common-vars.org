@@ -113,7 +113,7 @@ dns1_server: 10.4.12.160
 dns2_server: 10.4.12.220
 
 
-
+hostmachine_password: "password"
 proxy_env: 
    http_proxy: "{{http_proxy_name}}" 
    https_proxy: "{{https_proxy_name}}"
