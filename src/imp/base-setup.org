@@ -10,13 +10,16 @@
   machine's setup.
 * Implementation
 ** Base Machine Setup
-   =basesetup= role contains following ansible playbooks. Each
-   playbook is included in =main.yml= file. The =main.yml= is the main
-   play book to setup base machine. The =main.yml= playbook runs other playbooks
+   =basesetup= role contains following ansible
+   playbooks. Each playbook is included in =main.yml=
+   file. The =main.yml= is the main play book to setup base
+   machine. The =main.yml= playbook runs other playbooks
    included in it in a sequential order
 *** Create br0 interface
-    - The following playbook =br0.yml= creates =br0= interface for
-      host machine.This Creates ifcfg-br0 file in /etc/sysconfig/network-scripts/ and adds data mentioned in block field
+    - The following playbook =br0.yml= creates =br0=
+      interface for host machine.This Creates ifcfg-br0 file
+      in /etc/sysconfig/network-scripts/ and adds data
+      mentioned in block field
     
 #+BEGIN_SRC yml :tangle roles/basesetup/tasks/br0.yml
 ---

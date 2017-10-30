@@ -671,25 +671,25 @@ dependencies:
    - debug: var=out.stdout_lines
 
    - name: Downloading python tornado-4.3 file 
-     get_url: 
-        url: "https://pypi.python.org/packages/source/t/tornado/tornado-4.3.tar.gz"
-        dest: ~/tornado-4.3.tar.gz
-     environment: "{{export_proxy}}"
-
+     shell:  "{{export_proxy}} && wget https://pypi.python.org/packages/source/t/tornado/tornado-4.3.tar.gz"
    - name: Extract torando-4.3tar.gz file
      unarchive:  src=~/tornado-4.3.tar.gz  dest=~/ remote_src=yes
  
    - name: Run setu.py file
-     command: python setup.py build
-     environment: "{{export_proxy}}"
+     shell: {{export_proxy}} && python setup.py build
      register: out
      args:
       chdir: ~/tornado-4.3
    - debug: var=out.stdout_lines
 
+   - name: Install tornado dependencies
+     command: "{{export_proxy}} && yum install {{item}}
+     with_items:
+      - python2-backports_abc
+      - python-singledispatch.noarch
+
    - name: install setu.py file
-     command: python setup.py install
-     environment: "{{export_proxy}}"
+     shell: {{export_proxy}} && python setup.py install
      register: out
      args:
       chdir: ~/tornado-4.3
