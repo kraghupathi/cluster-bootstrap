@@ -148,7 +148,7 @@
 #+BEGIN_SRC yml :tangle roles/basesetup/tasks/corkscrew_installation.yml
 ---
 - name: Installing Development tools
-  command: yum groupinstall "Development tools" -y
+  yum: name= "Development tools" state=installed
   environment: "{{proxy_env}}"
 
 - name: Install python-pip
