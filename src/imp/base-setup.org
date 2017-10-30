@@ -197,7 +197,7 @@
 - debug: var=out.stdout_lines
 
 
-- name: Creating and configuring ~/.ssh/config to clone bitbucket repo system model
+- name: Creating and configuring ~/.ssh/config to clone system model
   template: src=ssh-config dest=~/.ssh/config mode=400
 
 
