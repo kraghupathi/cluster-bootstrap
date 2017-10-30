@@ -350,7 +350,7 @@ dependencies:
 
 #+END_SRC
 
-**** Main tasks file
+***** Setup OpenVZ
      =main.yml= contains various included playbooks which are needed
      for OpenVZ virtualization setup. Purpose of each included
      playbook is described above the =main.yml= file.
