@@ -25,7 +25,7 @@
       name: libselinux-python
       state: latest
 
-   - copy:  
+   - copy: Copy ifcfg-br0 template to /etc/sysconfig/network-scripts/ifcfg-br0 on host machine
        content: ""      
        dest: "/etc/sysconfig/network-scripts/ifcfg-br0"
    
