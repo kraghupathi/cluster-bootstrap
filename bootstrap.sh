@@ -1,7 +1,7 @@
 #! /bin/bash
 
 # Host machine's root user password
-PASSWORD_HOSTMACHINE=vlead123  
+PASSWORD_HOSTMACHINE=password  
 
 # Set network proxy, http_proxy and https_proxy
 HTTP_PROXY="http://proxy.iiit.ac.in:8080"
@@ -11,9 +11,9 @@ HTTPS_PROXY="http://proxy.iiit.ac.in:8080"
 ## So that these three machines will get internet connection.
 ## Router and config-servers are containers.
 ## Following fields should be taken from LAN network which has internet
-HOSTMACHINE_IP=10.2.57.204
-ROUTER_IP=10.2.57.205
-CONFIG_SERVER_IP=10.2.57.206
+HOSTMACHINE_IP=10.2.57.118
+ROUTER_IP=10.2.57.119
+CONFIG_SERVER_IP=10.2.57.120
 DNS1=10.4.12.160
 DNS2=10.4.12.220
 INTERNET_GATEWAY=10.2.56.1
@@ -66,6 +66,7 @@ cp $COMMONVARS_PATH $COMMONVARS_PATH.bkp
 sed -i "s|http_proxy_name:.*|http_proxy_name: $HTTP_PROXY|g" "$COMMONVARS_PATH"
 sed -i "s|https_proxy_name:.*|https_proxy_name: $HTTPS_PROXY|g" "$COMMONVARS_PATH"
 sed -i "s|hostmachine_ip:.*|hostmachine_ip: $HOSTMACHINE_IP|g" "$COMMONVARS_PATH"
+sed -i "s|hostmachine_password:.*|hostmachine_password: $PASSWORD_HOSTMACHINE|g" "$COMMONVARS_PATH"
 sed -i "s|router_ip:.*|router_ip: $ROUTER_IP|g" "$COMMONVARS_PATH"
 sed -i "s|config_server_ip:.*|config_server_ip: $CONFIG_SERVER_IP|g" "$COMMONVARS_PATH"
 sed -i "s|dns1_server:.*|dns1_server: $DNS1|g" "$COMMONVARS_PATH"
@@ -81,8 +82,8 @@ sed -i "/[config-server]/{ n; s/10.2.*/$CONFIG_SERVER_IP/; }" $HOST_PATH
 
 RC_LOCAL=/etc/rc.d/rc.local
 
-echo "cd ~/cluster-automation/build/code/imp/ > cd_logs.txt 2>&1" >> $RC_LOCAL
-echo "ansible-playbook -i hosts cluster.yml > cluster.yml.txt 2>&1" >> $RC_LOCAL
+echo "cd ~/cluster-automation/build/code/imp/ > cd_logs.logs 2>&1" >> $RC_LOCAL
+echo "ansible-playbook -i hosts cluster.yml > cluster_yml.logs 2>&1" >> $RC_LOCAL
 echo 'sed -i "/ansible-playbook.*/d" '$RC_LOCAL'' >> $RC_LOCAL
 echo 'sed -i "/cluster-automation.*/d" '$RC_LOCAL'' >> $RC_LOCAL
 
