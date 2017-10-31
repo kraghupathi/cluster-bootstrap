@@ -12,12 +12,14 @@
 * Implementation
 ** Cluster nodes/servers creation
 *** Cluster 
-**** main.yml
+**** Create cluster nodes
      Following script does
      - Downloads required CentOS template. {{centos-template}} is
        defined in [[./common-vars.org][common-vars]] 
-     - Runs shell script =cluster.sh= to create basic cluster
-       container( without network configuration in containers).
+     - Runs shell script =cluster.sh= to create basic
+       cluster containers( without network configuration in
+       containers). Go to next section to know more about
+       =cluster.sh= shell script.
 #+BEGIN_SRC yml :tangle roles/cluster/tasks/main.yml
 ---
     - name: Downloading CentOS template
@@ -40,7 +42,7 @@
 
 #+END_SRC
      
-**** cluster.sh
+**** Shell script to create cluster nodes
      The above playbooks uses the following template/shell script
      =cluster.sh= to create basic cluster container( without network
      configuration in containers).

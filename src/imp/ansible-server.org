@@ -640,11 +640,13 @@ dependencies:
   remote_user: root
   
   tasks:
-   - name: Cloning setup-ovpl-centos repo from github 
-     shell: "{{export_proxy}} && git clone {{setup_ovpl_centos}} && cd setup-ovpl-centos &&  git checkout master"
-     ignore_errors: yes
-     register: out
-   - debug: var=out.stdout_lines
+   - name: Include systmes-model common_vars
+     include_vars:
+       file: ./roles/common_vars/vars/main.yml
+   - name: Cloning setup-ovpl-centos repo
+     git:
+      repo: {{setup_ovpl_centos}}
+     environment: '"{{proxy_env}}"'
 
    - name: Setting proxy in config.sh to install MongoDB
      replace: 
@@ -711,16 +713,27 @@ dependencies:
 
    - name: Install dependencies
      yum: name=epel-release state=installed
+     environment: '"{{proxy_env}}"'
+
    - name: Install dependencies
      yum: name=mod_wsgi state=installed
+     environment: '"{{proxy_env}}"'
+
    - name: Install dependencies
      yum: name=python-pip state=installed
-   - name: Install 
-     shell: '{{export_proxy}} &&  python setup.py install'
-     register: result
-     args:
-       chdir: ~/ovpl/src/ads-web-app/
-   - debug: var=result.stdout_lines
+     environment: '"{{proxy_env}}"'
+
+   - name: Install flask
+     pip: flask
+     environment: '"{{proxy_env}}"'
+
+   - name: Install oauthlib
+     pip: oauthlib
+     environment: '"{{proxy_env}}"'
+
+   - name: Install flask-oauthlib
+     pip: flask-oauthlib
+     environment: '"{{proxy_env}}"'
 
    - name: COOKIE UPDATE
      replace: 
