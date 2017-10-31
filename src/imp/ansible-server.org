@@ -351,7 +351,6 @@ This script downloads emacs- org-mode
 **** ADS
      Configures ads-server.
 #+begin_src yml :tangle roles/config-with-vlead-user/tasks/ads.yml  
-
 ---
 - name: installing git
   command: ssh root@10.100.1.9 yum install -y git
@@ -359,7 +358,7 @@ This script downloads emacs- org-mode
 - debug: var=out.stdout_lines
 
 - name: Generating sshkeys
-  command: ssh root@10.100.1.9  "ssh-keygen -t rsa -f ~/.ssh/id_rsa| echo no"
+  command: ssh root@10.100.1.9 "ssh-keygen -t rsa -f ~/.ssh/id_rsa| echo no"
   register: out
 - debug: var=out.stdout_lines
 
@@ -400,17 +399,28 @@ This script downloads emacs- org-mode
 - name: Adding ADS server configuration template into Systems model, so that it becomes one of the server nodes
   template: src=configure-ads-server.yml  dest=systems-model/build/{{clustername}}/
 
+- name: Backup Systems-model common_vars/vars/main.yml file 
+  command: cp main.yml backup.yml
+  args:
+   chdir: systems-model/build/{{clustername}}/roles/common_vars/vars
+ 
+- name: Comment out none in common_vars/vars/main.yml file
+  lineinfile: 
+     path: systems-model/build/{{clustername}}/roles/common_vars/vars/main.yml
+     regexp: "none:*"
+     line: " #none: none"
+ 
 - name: Set http_proxy
   lineinfile:
      path: systems-model/build/{{clustername}}/roles/common_vars/vars/main.yml
      regexp: "http_proxy:*"
-     line: " http_proxy: http://proxy.iiit.ac.in:8080/"
+     line: " http_proxy: {{proxy_env}}"
 
 - name: Set https_proxy
   lineinfile:
      path: systems-model/build/{{clustername}}/roles/common_vars/vars/main.yml
      regexp: "https_proxy:*"
-     line: " https_proxy: http://proxy.iiit.ac.in:8080/"
+     line: " https_proxy: {{proxy_env}}"
 
 - name: Install ADS server required packages from ansible container
   command: ansible-playbook -i hosts install-ads-dependencies.yml
@@ -425,9 +435,6 @@ This script downloads emacs- org-mode
   args: 
     chdir: systems-model/build/{{clustername}}/
 - debug: var=out.stdout_lines  
-
-#- name: set BASE_IP_ADDRESS
-#  command: ansible -i hosts ads_server -m lineinfile -a "dest=~/ovpl/config/adapters/base_config.py  regexp='^BASE_IP_ADDRESS =.*' line='BASE_IP_ADDRESS = \"root@{{ipaddress.hostmachine}}\"' state=present" -u root
 
 #+end_src
 
