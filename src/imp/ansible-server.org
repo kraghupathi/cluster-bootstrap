@@ -710,21 +710,6 @@ dependencies:
      register: out  
    - debug: var=out.stdout_lines
 
-   - name: Downloading python tornado-4.3 file 
-     get_url: url=https://pypi.python.org/packages/source/t/tornado/tornado-4.3.tar.gz dest=~/
-     environment: "{{proxy_env}}"
-   
-   - name: Extract torando-4.3tar.gz file
-     unarchive:  src=~/tornado-4.3.tar.gz  dest=~/ remote_src=yes
-   
-   - name: Run setu.py file
-     command: python setup.py build
-     environment: "{{proxy_env}}"
-     register: out
-     args:
-      chdir: ~/tornado-4.3
-   - debug: var=out.stdout_lines
-   
    - name: Install certifi dependecy for tornado-4.3
      get_url: url=https://pypi.python.org/packages/20/d0/3f7a84b0c5b89e94abbd073a5f00c7176089f526edb056686751d5064cbd/certifi-2017.7.27.1.tar.gz#md5=48e8370da8b370a16e223ee9c7b6b063 dest=~/certifi.tar.gz
      environment: "{{proxy_env}}"
@@ -777,6 +762,22 @@ dependencies:
    - name: Install flask-oauthlib
      pip: name=flask-oauthlib
      environment: "{{proxy_env}}"
+
+   - name: Downloading python tornado-4.3 file 
+     get_url: url=https://pypi.python.org/packages/source/t/tornado/tornado-4.3.tar.gz dest=~/
+     environment: "{{proxy_env}}"
+   
+   - name: Extract torando-4.3tar.gz file
+     unarchive:  src=~/tornado-4.3.tar.gz  dest=~/ remote_src=yes
+   
+   - name: Run setu.py file
+     command: python setup.py build
+     environment: "{{proxy_env}}"
+     register: out
+     args:
+      chdir: ~/tornado-4.3
+   - debug: var=out.stdout_lines
+
 
 #+end_src
 **** Template to modify ADS configuration files
