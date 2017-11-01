@@ -318,7 +318,6 @@ This script downloads emacs- org-mode
       regexp: "CONFIG_SERVER=10.4.14.208"
       replace: "CONFIG_SERVER={{ipaddress.config_server}}"
 
-
 - name: Replacing clustername in makefile of system-model
   replace:
       path: systems-model/makefile
@@ -331,6 +330,30 @@ This script downloads emacs- org-mode
       path: systems-model/makefile
       regexp: "SMTP_SMART_HOST= smtp.admin.iiit.ac.in"
       replace: "SMTP_SMART_HOST={{smtp_smart_host}}"
+
+- name: Backup Systems-model common_vars/vars/main.yml file 
+  command: cp main.yml backup.yml
+  args:
+   chdir: systems-model/build/{{clustername}}/roles/common_vars/vars
+ 
+- name: Comment out none in common_vars/vars/main.yml file
+  lineinfile: 
+     path: systems-model/build/{{clustername}}/roles/common_vars/vars/main.yml
+     regexp: "none: none"
+     line: " #none: none"
+ 
+- name: Set http_proxy
+  lineinfile:
+     path: systems-model/build/{{clustername}}/roles/common_vars/vars/main.yml
+     regexp: "http_proxy:*"
+     line: " http_proxy: {{proxy_env.http_proxy}}"
+
+- name: Set https_proxy
+  lineinfile:
+     path: systems-model/build/{{clustername}}/roles/common_vars/vars/main.yml
+     regexp: "https_proxy:*"
+     line: " https_proxy: {{proxy_env.https_proxy}}"
+
 #+END_SRC
 **** Set Proxy
      This script copies set-proxy.yml file from templates to
@@ -399,28 +422,6 @@ This script downloads emacs- org-mode
 - name: Adding ADS server configuration template into Systems model, so that it becomes one of the server nodes
   template: src=configure-ads-server.yml  dest=systems-model/build/{{clustername}}/
 
-- name: Backup Systems-model common_vars/vars/main.yml file 
-  command: cp main.yml backup.yml
-  args:
-   chdir: systems-model/build/{{clustername}}/roles/common_vars/vars
- 
-- name: Comment out none in common_vars/vars/main.yml file
-  lineinfile: 
-     path: systems-model/build/{{clustername}}/roles/common_vars/vars/main.yml
-     regexp: "none:*"
-     line: " #none: none"
- 
-- name: Set http_proxy
-  lineinfile:
-     path: systems-model/build/{{clustername}}/roles/common_vars/vars/main.yml
-     regexp: "http_proxy:*"
-     line: " http_proxy: {{proxy_env}}"
-
-- name: Set https_proxy
-  lineinfile:
-     path: systems-model/build/{{clustername}}/roles/common_vars/vars/main.yml
-     regexp: "https_proxy:*"
-     line: " https_proxy: {{proxy_env}}"
 
 - name: Install ADS server required packages from ansible container
   command: ansible-playbook -i hosts install-ads-dependencies.yml
