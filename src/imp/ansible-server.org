@@ -195,7 +195,7 @@ This script installs sshpass package for copying sshkeys  into other containers
     chdir: ~/systems-model/
 - debug: var=out.stdout_lines
 - name: Copying build file --Backup 
- command: sudo cp -r build/{{clustername}} /root/
+  command: sudo cp -r build/"{{clustername}}" /root/
   register: out
   args:
    chdir: ~/systems-model/
