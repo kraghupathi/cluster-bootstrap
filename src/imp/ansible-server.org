@@ -165,26 +165,27 @@ This script installs sshpass package for copying sshkeys  into other containers
 
 ---
  #tasks file for config-with-vlead-user
- - name: Installing sshpass
-   yum: name=sshpass state=installed
-   environment: "{{proxy_env}}"
+- name: Installing sshpass
+  yum: name=sshpass state=installed
+  environment: "{{proxy_env}}"
 
 #+END_SRC
 
-**** Including yml files
-Description of these files can be found below
+**** Include other files to main.yml
+     Description of the included files in the following file
+     can be found below. 
 #+BEGIN_SRC yml :tangle roles/config-with-vlead-user/tasks/main.yml
- - include: copy-sshkeys.yml
- - include: setupemacs.yml
- - include: changes_in_makefile.yml                                                        
+- include: copy-sshkeys.yml
+- include: setupemacs.yml
+- include: changes_in_makefile.yml                                                        
 #+END_SRC
 
-**** Running make in systems-model 
-This script describes 
+**** Run make in systems-model 
+     This script describes 
      - Running make in systems-model repository
      - Keeping a backup file after running make
      - Checking site.yaml file for syntax errors
-     - Including proxy-port in systems-models
+     - Updating proxy-port in systems-model
 #+BEGIN_SRC yml :tangle roles/config-with-vlead-user/tasks/main.yml
 
 - name: changing directory to systems-model and running make
@@ -231,19 +232,20 @@ This script describes
 #+END_SRC
 
 **** Including yml files
-Description of these yml files will be explained below.
+     Description of these yml files will be explained below.
 #+BEGIN_SRC yml :tangle roles/config-with-vlead-user/tasks/main.yml
- - include: set-proxy.yml
- - include: ads.yml
- - include: knownhost.yml
- - include: cluster_site.yml
- - include: site_run.yml
- - include: site_run2.yml
+- include: set-proxy.yml
+- include: ads.yml
+- include: knownhost.yml
+- include: cluster_site.yml
+- include: site_run.yml
+- include: site_run2.yml
 #+END_SRC
 
-**** Copy-sshkeys of ansible/config-server to containesr
-     Copies ssh-key of ansible machine to all cluster containers
-     including ansible/config-server.Enabling ssh access from ansible using key-based authentication
+**** Copy-sshkeys of ansible/config-server to all cluster containers
+     Copies ssh-key of ansible machine to all cluster
+     containers including ansible/config-server.Enabling ssh
+     access from ansible using key-based authentication
 #+BEGIN_SRC yml :tangle roles/config-with-vlead-user/tasks/copy-sshkeys.yml
 ---
  - name: Copying ssh keys of ansible to localhost
@@ -505,10 +507,10 @@ This script downloads emacs- org-mode
 
 #+end_src
 **** Update cluster DNS ips in common-vars
-   Changes private-dns-ips and private-dns-zone in common-vars of
-   systems-model
+     Changes private-dns-ips and private-dns-zone in
+     common-vars of systems-model
 #+BEGIN_SRC yml :tangle roles/config-with-vlead-user/tasks/site_run2.yml
-
+---
  - name: Updating private-dns-ips
    replace:
         path: systems-model/build/{{clustername}}/roles/common_vars/vars/main.yml       
@@ -537,19 +539,21 @@ This script downloads emacs- org-mode
  - debug: var=out.stdout_lines
  
 #+END_SRC
-**** handlers
+**** Handlers
  Comes into play when there is any notify field mentioned in tasks of this role
 #+BEGIN_SRC yml :tangle roles/config-with-vlead-user/handlers/main.yml
-
 ---
 # handlers file for config-with-vlead-user
 - name: restart_ssh
   service: name=sshd state=restarted
 
-
 #+END_SRC
 
 **** Dependencies
+     Each role in the cluster-automation project depends on
+     [[./common-vars.org][common-vars role]]. All variables are defined the
+     common-vars roles. variable values of each role will
+     come from the common-vars
 
 #+BEGIN_SRC yml :tangle roles/config-with-vlead-user/meta/main.yml
 
@@ -559,9 +563,11 @@ dependencies:
 #+END_SRC
 
 **** Set network proxy in server containers
-     Template for setting-up proxy in all containers.  This template
-     will be copied into the cluser's ansible container. From
-     cluster's ansible container, this playbook will run.This sets proxy in all other containers
+     Template for setting-up proxy in all containers.  This
+     template will be copied into the cluser's ansible
+     container. From cluster's ansible container, this
+     playbook will run.This sets proxy in all other
+     containers
 #+BEGIN_SRC yml :tangle roles/config-with-vlead-user/templates/set-proxy.yml
 ---
 - hosts: router
@@ -664,8 +670,9 @@ dependencies:
 
 #+END_SRC
 
-**** ads-setup template
-     Sets up ads server to deploy lab in the cluster
+**** Install dependencies of ADS server
+     The following script installs the packages that are
+     required for ADS server configuration.
 
 #+begin_src yml :tangle roles/config-with-vlead-user/files/install-ads-dependencies.yml
 ---
@@ -722,7 +729,7 @@ dependencies:
      args:
       chdir: ~/certifi-2017.7.27.1/
    
-   - name: Install tornado dependencies
+   - name: Installing python2-backports_abc,python-singledispatch,python-backports-ssl_match_hostname(tornado dependencies)
      yum: name="{{item}}" state=installed
      with_items:
        - python2-backports_abc 
@@ -730,47 +737,41 @@ dependencies:
        - python-backports-ssl_match_hostname
      environment: "{{proxy_env}}"
    
-   - name: install setu.py file
-     command: python setup.py install
-     environment: "{{proxy_env}}"
-     register: out
-     args:
-      chdir: ~/tornado-4.3
-   - debug: var=out.stdout_lines
-   
-   - name: Install dependencies
+   - name: Installing epel-release dependencies
      yum: name=epel-release state=installed
      environment: "{{proxy_env}}"
    
-   - name: Install dependencies
+   - name: Installing mod_wsgi dependencies
      yum: name=mod_wsgi state=installed
      environment: "{{proxy_env}}"
    
-   - name: Install dependencies
+   - name: Installing python-pip dependencies
      yum: name=python-pip state=installed
      environment: "{{proxy_env}}"
    
-   - name: Install flask
+   - name: Installing flask
      pip: name=flask
      environment: "{{proxy_env}}"
    
-   - name: Install oauthlib
+   - name: Installing oauthlib
      pip: name=oauthlib
      environment: "{{proxy_env}}"
    
-   - name: Install flask-oauthlib
+   - name: Installing flask-oauthlib
      pip: name=flask-oauthlib
      environment: "{{proxy_env}}"
+
 
    - name: Downloading python tornado-4.3 file 
      get_url: url=https://pypi.python.org/packages/source/t/tornado/tornado-4.3.tar.gz dest=~/
      environment: "{{proxy_env}}"
    
-   - name: Extract torando-4.3tar.gz file
+   - name: Extracting torando-4.3tar.gz file
      unarchive:  src=~/tornado-4.3.tar.gz  dest=~/ remote_src=yes
+
    
-   - name: Run setu.py file
-     command: python setup.py build
+   - name: Running setu.py file from tornado-4.3 directory.
+     command: python setup.py install
      environment: "{{proxy_env}}"
      register: out
      args:
