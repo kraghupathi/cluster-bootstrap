@@ -176,7 +176,7 @@ Description of these files can be found below
 #+BEGIN_SRC yml :tangle roles/config-with-vlead-user/tasks/main.yml
  - include: copy-sshkeys.yml
  - include: setupemacs.yml
-
+ - include: changes_in_makefile.yml                                                        
 #+END_SRC
 
 **** Running make in systems-model 
@@ -187,27 +187,47 @@ This script describes
      - Including proxy-port in systems-models
 #+BEGIN_SRC yml :tangle roles/config-with-vlead-user/tasks/main.yml
 
- - name: changing directory to systems-model and running make
-   command: make
-   register: out
-   args: 
-     chdir: ~/systems-model/
- - debug: var=out.stdout_lines
-
- - name: Copying build file --Backup 
-   command: sudo cp -r build/{{clustername}} /root/
-   register: out
-   args:
+- name: changing directory to systems-model and running make
+  command: make
+  register: out
+  args: 
     chdir: ~/systems-model/
- - debug: var=out.stdout_lines
+- debug: var=out.stdout_lines
+- name: Copying build file --Backup 
+ command: sudo cp -r build/{{clustername}} /root/
+  register: out
+  args:
+   chdir: ~/systems-model/
+- debug: var=out.stdout_lines
+- name: Changing proxy-port of system-model
+  lineinfile:
+     path: ~/systems-model/build/{{clustername}}/roles/common_vars/vars/main.yml 
+     regexp: '^proxy_port:.*'
+     line: 'proxy_port: {{proxy_port}}'
+     state: present
+- name: Backup Systems-model common_vars/vars/main.yml file 
+  command: cp main.yml backup.yml
+  args:
+   chdir: systems-model/build/{{clustername}}/roles/common_vars/vars
+- name: Comment out none in common_vars/vars/main.yml file
+  lineinfile: 
+     path: systems-model/build/{{clustername}}/roles/common_vars/vars/main.yml
+     regexp: "none: none"
+     line: " #none: none"
+ 
+- name: Set http_proxy
+  lineinfile:
+     path: systems-model/build/{{clustername}}/roles/common_vars/vars/main.yml
+     regexp: "http_proxy:*"
+     line: " http_proxy: {{proxy_env.http_proxy}}"
 
- - name: Changing proxy-port of system-model
-   lineinfile:
-        path: ~/systems-model/build/{{clustername}}/roles/common_vars/vars/main.yml 
-        regexp: '^proxy_port:.*'
-        line: 'proxy_port: {{proxy_port}}'
-        state: present
- - include: changes_in_makefile.yml                                                        
+- name: Set https_proxy
+  lineinfile:
+     path: systems-model/build/{{clustername}}/roles/common_vars/vars/main.yml
+     regexp: "https_proxy:*"
+     line: " https_proxy: {{proxy_env.https_proxy}}"
+
+
 #+END_SRC
 
 **** Including yml files
@@ -306,11 +326,6 @@ This script downloads emacs- org-mode
 #+BEGIN_SRC yml :tangle roles/config-with-vlead-user/tasks/changes_in_makefile.yml
 ---
 
-- name: Backup Systems-model common_vars/vars/main.yml file 
-  command: cp main.yml backup.yml
-  args:
-   chdir: systems-model/build/{{clustername}}/roles/common_vars/vars
-
 - name: Replacing router-ip in makefile of systems-model  
   replace:
       path: systems-model/makefile
@@ -337,23 +352,6 @@ This script downloads emacs- org-mode
       replace: "SMTP_SMART_HOST={{smtp_smart_host}}"
 
  
-- name: Comment out none in common_vars/vars/main.yml file
-  lineinfile: 
-     path: systems-model/build/{{clustername}}/roles/common_vars/vars/main.yml
-     regexp: "none: none"
-     line: " #none: none"
- 
-- name: Set http_proxy
-  lineinfile:
-     path: systems-model/build/{{clustername}}/roles/common_vars/vars/main.yml
-     regexp: "http_proxy:*"
-     line: " http_proxy: {{proxy_env.http_proxy}}"
-
-- name: Set https_proxy
-  lineinfile:
-     path: systems-model/build/{{clustername}}/roles/common_vars/vars/main.yml
-     regexp: "https_proxy:*"
-     line: " https_proxy: {{proxy_env.https_proxy}}"
 
 #+END_SRC
 **** Set Proxy
