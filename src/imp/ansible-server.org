@@ -788,6 +788,11 @@ dependencies:
   remote_user: root
 
   tasks:
+   - name: Copy sample_config.json to config.json
+     command: cp sample_config.json config.json
+     args:
+      chdir: ovpl/config/
+     
    - name: COOKIE UPDATE
      replace: 
        path: ovpl/config/config.json
@@ -859,9 +864,6 @@ dependencies:
       line: 'SUBNET_BRIDGE = "br1"'
       state: present
   
-   - name: Rsync files
-     command: cp -r ~/ovpl/src/ads-web-app /var/www/html/
-     
    - name: Start manage_service &
      shell: ./manage_services.sh
      args: 
@@ -869,25 +871,28 @@ dependencies:
            
    - name: Google keys
      replace:
-        path: /var/www/html/ads-web-app/config.py
+        path: ovpl/src/ads-web-app/config.py
         regexp: "CONSUMER_KEY.*"
         replace: 'CONSUMER_KEY = "{{consumer_key}}"'
-   - name: Google secrete
+   - name: Delete extra line
+     command: sed '3d' /var/www/html/ads-web-app/config.py
+
+   - name: Adding Google Consumer secrete key
      replace:
-        path: /var/www/html/ads-web-app/config.py
+        path: ovpl/src/ads-web-app/config.py
         regexp: "CONSUMER_SECRET.*"
         replace: 'CONSUMER_SECRET = "{{consumer_secret}}"'
 
    - name : Replace ADS_SECRET_KEY
      lineinfile:
-        path:  /var/www/html/ads-web-app/config.py
+        path: ovpl/src/ads-web-app/config.py
         regexp: "^ADS_SECRET_KEY.*"
         line: 'ADS_SECRET_KEY = "placethekeyhere"'
         state: present
 
    - name : Replace APP_URL
      lineinfile:
-        path:  /var/www/html/ads-web-app/config.py
+        path: ovpl/src/ads-web-app/config.py
         regexp: "^APP_URL .*"
         line: 'APP_URL = "http://ads.{{clustername}}.virtual-labs.ac.in:8080"'
         state: present
