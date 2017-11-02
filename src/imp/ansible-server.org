@@ -176,7 +176,7 @@ Description of these files can be found below
 #+BEGIN_SRC yml :tangle roles/config-with-vlead-user/tasks/main.yml
  - include: copy-sshkeys.yml
  - include: setupemacs.yml
- - include: changes_in_makefile.yml
+
 #+END_SRC
 
 **** Running make in systems-model 
@@ -207,7 +207,7 @@ This script describes
         regexp: '^proxy_port:.*'
         line: 'proxy_port: {{proxy_port}}'
         state: present
-                                                        
+ - include: changes_in_makefile.yml                                                        
 #+END_SRC
 
 **** Including yml files
@@ -306,6 +306,11 @@ This script downloads emacs- org-mode
 #+BEGIN_SRC yml :tangle roles/config-with-vlead-user/tasks/changes_in_makefile.yml
 ---
 
+- name: Backup Systems-model common_vars/vars/main.yml file 
+  command: cp main.yml backup.yml
+  args:
+   chdir: systems-model/build/{{clustername}}/roles/common_vars/vars
+
 - name: Replacing router-ip in makefile of systems-model  
   replace:
       path: systems-model/makefile
@@ -331,10 +336,6 @@ This script downloads emacs- org-mode
       regexp: "SMTP_SMART_HOST= smtp.admin.iiit.ac.in"
       replace: "SMTP_SMART_HOST={{smtp_smart_host}}"
 
-- name: Backup Systems-model common_vars/vars/main.yml file 
-  command: cp main.yml backup.yml
-  args:
-   chdir: systems-model/build/{{clustername}}/roles/common_vars/vars
  
 - name: Comment out none in common_vars/vars/main.yml file
   lineinfile: 
