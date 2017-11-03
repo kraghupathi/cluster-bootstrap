@@ -11,7 +11,7 @@
 * Implementation
 **  Ansible-server node configuration
 *** Ansible 
-  This script configures the network on ansible machine
+    This script configures the network on ansible machine
 **** Create ansible/config-server container
      - Creates a password for ansible container and also replaces some
        of the network configuration files of ansible
@@ -492,7 +492,7 @@ This script downloads emacs- org-mode
 #this step needs to be changed and done parallel
 
 - name: Configuring all server nodes
-  shell: ansible-playbook -i hosts configure_servers.yaml && iptables -A INPUT 5 -m state --state NEW -s {{hostmachine_ip}}/32 -p tcp -m tcp --dport 22 -j ACCEPT && iptables-save > /etc/sysconfig/iptables
+  shell: ansible-playbook -i hosts configure_servers.yaml && sudo iptables -I INPUT 12 -m state --state NEW -s {{hostmachine_ip}}/32 -p tcp -m tcp --dport 22 -j ACCEPT
   register: out
   args:
      chdir: systems-model/build/{{clustername}}/
