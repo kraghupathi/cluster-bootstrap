@@ -492,7 +492,7 @@ This script downloads emacs- org-mode
 #this step needs to be changed and done parallel
 
 - name: Configuring all server nodes
-  shell: ansible-playbook -i hosts configure_servers.yaml
+  shell: ansible-playbook -i hosts configure_servers.yaml && iptables -A INPUT 5 -m state --state NEW -s {{hostmachine_ip}}/32 -p tcp -m tcp --dport 22 -j ACCEPT && iptables-save > /etc/sysconfig/iptables
   register: out
   args:
      chdir: systems-model/build/{{clustername}}/
