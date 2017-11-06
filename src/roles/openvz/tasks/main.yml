@@ -1,5 +1,0 @@
----
-# tasks file for openvz
-- include: clone.yml
-- include: install-openvz.yml
-- include: openvz-config.yml

@@ -1,9 +1,0 @@
----
-
-- name: Downloading Emacs
-  file: path=emacs/lisp mode=0755 state=directory
-
-- name: un-tar  downloaded file
-  unarchive: src={{org_link}} dest=/home/vlead/emacs/lisp/ remote_src=True
-  environment: "{{proxy_env}}"
-

@@ -1,9 +1,0 @@
----
-- name: ssh-key generate
-  user: name=root generate_ssh_key=yes
-
-- name: Strict host check no
-  lineinfile: path=/etc/ssh/ssh_config regexp="^Strict.*" line="StrictHostKeyChecking no" state=present
-  notify: restart_ssh
-
-

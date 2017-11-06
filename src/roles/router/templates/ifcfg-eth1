@@ -1,6 +1,0 @@
-DEVICE=eth1
-BOOTPROTO=static
-ONBOOT=yes
-NM_CONTROLLED=no
-IPADDR=10.100.1.1
-NETMASK={{net_mask}}
