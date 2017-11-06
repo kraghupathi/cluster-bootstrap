@@ -23,9 +23,8 @@
     cd cluster-automation
     #+END_EXAMPLE
 
-  7. Update variables in =bootstrap.sh= file. After cloning
-     repository open =bootstrap.sh= file and update the
-     variables then run make
+  7. Run make
+  8. Update variables in =bootstrap.sh= file.
 #+BEGIN_SRC shell :tangle ../../../bootstrap.sh
 
 #! /bin/bash
@@ -130,4 +129,8 @@ sed -i "/[config-server]/{ n; s/10.2.*/$CONFIG_SERVER_IP/; }" $HOST_PATH
 # fi 
     
 #+END_SRC
-  
+   8. Run the above shell script to setup OpenVZ cluster on
+      local machine.
+      #+BEGIN_SRC 
+      sh path/to/bootstrap.sh
+      #+END_SRC
