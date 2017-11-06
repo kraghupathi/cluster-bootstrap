@@ -762,6 +762,17 @@ dependencies:
      pip: name=flask-oauthlib
      environment: "{{proxy_env}}"
 
+   - name: Installing sh
+     pip: name=sh
+     environment: "{{proxy_env}}"
+
+   - name: Installing netaddr
+     pip: name=netaddr
+     environment: "{{proxy_env}}"
+
+   - name: Installing pymongo
+     pip: name=pymongo
+     environment: "{{proxy_env}}"
 
    - name: Downloading python tornado-4.3 file 
      get_url: url=https://pypi.python.org/packages/source/t/tornado/tornado-4.3.tar.gz dest=~/
@@ -793,6 +804,10 @@ dependencies:
      command: cp sample_config.json config.json
      args:
       chdir: ovpl/config/
+
+   - name: Include Common vars
+     include_vars: file= ./roles/common_vars/vars/main.yml
+
    - name: Set HTTP_PROXY proxy in config.json file
      replace: 
       path: ovpl/config/config.json
@@ -917,4 +932,5 @@ dependencies:
     
   
 
+     
      
