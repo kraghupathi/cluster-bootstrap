@@ -54,7 +54,7 @@
      private_bridge="br1"
      for i in {1001..1010}
      do
-     vzctl create $i  --ostemplate centos-6-x86_64
+     vzctl create $i  --ostemplate centos-6.9-x86-base
      if [ $i == 1001 ]
      then
      vzctl set $i --hostname router.$cluster.vlabs.ac.in --save
@@ -105,7 +105,7 @@
      then
      vzctl set $i --hostname nagios.$cluster.vlabs.ac.in --save
      vzctl set $i --netif_add eth1,,,,$private_bridge --save
-     vzctl set $i --diskspace 10GB:15GB --save
+     vzctl set $i --diskspace 10G:15G --save
      vzctl start $i
      vzctl set $i --onboot yes --save
      elif [ $i == 1009 ]

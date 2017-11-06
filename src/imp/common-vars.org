@@ -131,7 +131,7 @@ corkscrew_dest: "/root"
 corkscrew_url1: http://www.agroman.net/corkscrew/corkscrew-2.0.tar.gz
 corkscrew_url2: http://wiki.kartbuilding.net/corkscrew-2.0.tar.gz
 
-centos_template: http://download.openvz.org/template/precreated/centos-6-x86_64.tar.gz
+centos_template: http://files.vlabs.ac.in/downloads/templates/centos-6.9-x86-base.tar.gz
 
 #systems_model_repo: git@altssh.bitbucket.org:vlead/systems-model.git
 
