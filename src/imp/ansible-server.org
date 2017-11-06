@@ -902,7 +902,7 @@ dependencies:
         regexp: "CONSUMER_KEY.*"
         replace: 'CONSUMER_KEY = "{{consumer_key}}"'
    - name: Delete extra line
-     command: sed '3d' ~/ovpl/src/ads-web-app/config.py
+     command: sed -i '3d' ~/ovpl/src/ads-web-app/config.py
 
    - name: Adding Google Consumer secrete key
      replace:
