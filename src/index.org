@@ -22,7 +22,7 @@
 * Implementation
   - [[./imp/index.org][Implementation]]
 * Bootstrapping steps
-  - [[./bootstrapping.org][Bootstrapping steps]]
+  - [[./imp/bootstrapping.org][Bootstrapping steps]]
     These steps are needed to setup cluster using ansible scripts
     written in implementation section.
 * Important Repositories
