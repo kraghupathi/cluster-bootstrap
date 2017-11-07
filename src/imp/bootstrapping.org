@@ -86,6 +86,7 @@ yum install openssh-server -y
 yum install sshpass -y
 
 service sshd start
+chkconfig sshd on
 
 echo -e '\n\nPlease press "n" if keys are already generated'
 ssh-keygen -t rsa -f /root/.ssh/id_rsa -q -P ""
