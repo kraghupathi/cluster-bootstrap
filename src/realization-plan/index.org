@@ -13,18 +13,22 @@
    automation is realized as series of [[https://github.com/vlead/lab-data-service/milestones?state=closed][milestones]].
 
 * Milestone Snapshot 
-   |---+----+----+-----+-------------------+------+--------+-----+-----+--------|
-   |   | S. | Mi | Req | Milestone         | Plan | Status | Est | Act | Issues |
-   |   | no | no | Map |                   |      |        | hrs | hrs |        |
-   |---+----+----+-----+-------------------+------+--------+-----+-----+--------|
-   |   | 1. | 1. |     | [[https://gitlab.com/vlead-systems/cluster-automation/milestones/5][ADS configuration]] | [[ADS Configuration][ref]]  | Open   | 92  | 87  | [[https://gitlab.com/vlead-systems/cluster-automation/issues?scope=all&utf8=%E2%9C%93&state=opened&milestone_title=Setup%20OpenVZ%20cluster%20automation%20on%20local%20machine][ref]]    |
-   |---+----+----+-----+-------------------+------+--------+-----+-----+--------|
-   |   |    |    |     | Total             |      |        | 92  | 87  |        |
-   | ^ |    |    |     |                   |      |        | et  | at  |        |
-   |---+----+----+-----+-------------------+------+--------+-----+-----+--------|
+   |---+----+----+-----+-----------------------------+------+--------+-----+-----+--------|
+   |   | S. | Mi | Req | Milestone                   | Plan | Status | Est | Act | Issues |
+   |   | no | no | Map |                             |      |        | hrs | hrs |        |
+   |---+----+----+-----+-----------------------------+------+--------+-----+-----+--------|
+   |   | 1. | 1. |     | [[https://gitlab.com/vlead-systems/cluster-automation/milestones/5][ADS configuration]]           | [[ADS Configuration][ref]]  | Open   |  92 |  87 | [[https://gitlab.com/vlead-systems/cluster-automation/issues?scope=all&utf8=%E2%9C%93&state=opened&milestone_title=Setup%20OpenVZ%20cluster%20automation%20on%20local%20machine][ref]]    |
+   |---+----+----+-----+-----------------------------+------+--------+-----+-----+--------|
+   |   | 2. | 2. |     | [[https://gitlab.com/vlead-systems/cluster-automation/milestones/6][Automate enabling ADS hooks]] | [[Automate enabling ADS hooks on ADS server][ref]]  | Open   |   0 |   0 |        |
+   |---+----+----+-----+-----------------------------+------+--------+-----+-----+--------|
+   |   |    |    |     | Total                       |      |        |  92 |  87 |        |
+   | ^ |    |    |     |                             |      |        |  et |  87 |        |
+   |---+----+----+-----+-----------------------------+------+--------+-----+-----+--------|
   #+TBLFM: $2=@#+1
   #+TBLFM: @3$8=remote(rlz-pln-ml-5, $est)
   #+TBLFM: @3$9=remote(rlz-pln-ml-5, $act)
+  #+TBLFM: @4$8=remote(rlz-pln-ml-6, $est)
+  #+TBLFM: @4$9=remote(rlz-pln-ml-6, $act)
   #+TBLFM: $et=vsum(@II+1..@-1)
   #+TBLFM: $at=vsum(@II+1..@-1)
 
@@ -96,3 +100,22 @@
 
 
 
+** Automate enabling ADS hooks on ADS server
+   #+caption: realization-plan
+   #+name: rlz-pln-ml-6
+  |---+-------+--------------------------------+---------+----------+--------+------------------+--------+--------+--------------|
+  |   | S.    | Tasks                          | Github/ | Expected | Actual | Estimated        | Actual | Status | Assignee     |
+  |   | NO    |                                | GitLab/ | Effort   | Effort | Start/           | Start, |        |              |
+  |   |       |                                | Issues  | (in      | (in    | End              | End    |        |              |
+  |   |       |                                |         | person   | person | Dates            | Dates  |        |              |
+  |   |       |                                |         | hours)   | hours) |                  |        |        |              |
+  |---+-------+--------------------------------+---------+----------+--------+------------------+--------+--------+--------------|
+  |   | 1.    | Copy public-key of ads server  | [[https://gitlab.com/vlead-systems/cluster-automation/issues/24][#24]]     | 8        |        | [2017-11-07 Tue] |        | TBD    | Siva Shanker |
+  |   |       | to ansible server's vlead user |         |          |        |                  |        |        |              |
+  |---+-------+--------------------------------+---------+----------+--------+------------------+--------+--------+--------------|
+  |   | Total |                                |         | 0        | 0      |                  |        |        |              |
+  | ^ |       |                                |         | est      | act    |                  |        |        |              |
+  |---+-------+--------------------------------+---------+----------+--------+------------------+--------+--------+--------------|
+#+TBLFM: $2=@#+1
+#+TBLFM: $est=vsum(@II+1..@-1)
+#+TBLFM: $act=vsum(@II+1..@-1)
