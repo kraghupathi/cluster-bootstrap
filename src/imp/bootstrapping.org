@@ -7,7 +7,15 @@
 * Introduction
   This document contains the steps to setup the whole
   OpenVZ cluster.
+* Requirements
+  - A machine/VirualBox with CentOS-6
+    - Configuration of system
+  - Three free LAN IPs 
+    1. One for Host machine( Default IP of the Host machine)
+    2. One for Router Container/Server
+    3. One for Ansible/config Sever/Container.
 * Steps
+
   1. Boot the machine
   2. Login to the machine
   3. Login to root account
@@ -76,12 +84,12 @@ yum install epel-release -y
 yum install ansible -y
 yum install sshpass -y
 
-# # echo -e '\n\nPlease press "n" if keys are already generated'
-
+echo -e '\n\nPlease press "n" if keys are already generated'
 ssh-keygen -t rsa -f /root/.ssh/id_rsa -q -P ""
 
 sed -i '/^StrictHostKey.*/d' /etc/ssh/ssh_config
-# # echo 'StrictHostKeyChecking no' >> /etc/ssh/ssh_config
+echo 'StrictHostKeyChecking no' >> /etc/ssh/ssh_config
+
 service sshd restart
 
 sshpass -p $PASSWORD_HOSTMACHINE ssh-copy-id root@localhost
