@@ -23,11 +23,6 @@
     
 #+BEGIN_SRC yml :tangle roles/basesetup/tasks/br0.yml
 ---
-   - name: install the latest version of libselinux-python
-     yum:
-      name: libselinux-python
-      state: latest
-
    - copy: 
        content: ""      
        dest: "/etc/sysconfig/network-scripts/ifcfg-br0"
@@ -51,13 +46,11 @@
    - name: Network restart
      service: name=network state=restarted 
 
-#   - name: Bridge br0 network interface up
-#    command: ifup br0
-#    register: out
-#  - debug: var=out.stdout_lines
+   - name: install the latest version of libselinux-python
+     yum:
+      name: libselinux-python
+      state: latest
 
-...
- 
 #+END_SRC
 
 *** Create eth0 interface on host machine.
@@ -109,15 +102,9 @@
      name: network
      state: restarted
 
-  - name: Bridge br0 network interface up
-    command: ifup br0
-    register: out
-  - debug: var=out.stdout_lines
-
   - name: Network Manager off
     command: chkconfig NetworkManager off
     register: out
-    ignore_errors: yes
   - debug: var=out.stdout_lines
 
   - name: Network on
