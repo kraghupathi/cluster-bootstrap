@@ -17,12 +17,12 @@
    |   | S. | Mi | Req | Milestone                   | Plan | Status | Est | Act | Issues |
    |   | no | no | Map |                             |      |        | hrs | hrs |        |
    |---+----+----+-----+-----------------------------+------+--------+-----+-----+--------|
-   |   | 1. | 1. |     | [[https://gitlab.com/vlead-systems/cluster-automation/milestones/5][ADS configuration]]           | [[ADS Configuration][ref]]  | Open   |  92 |  87 | [[https://gitlab.com/vlead-systems/cluster-automation/issues?scope=all&utf8=%E2%9C%93&state=opened&milestone_title=Setup%20OpenVZ%20cluster%20automation%20on%20local%20machine][ref]]    |
+   |   | 1. | 1. |     | [[https://gitlab.com/vlead-systems/cluster-automation/milestones/5][ADS configuration]]           | [[ADS Configuration][ref]]  | Closed |  84 | 111 | [[https://gitlab.com/vlead-systems/cluster-automation/issues?scope%3Dall&utf8%3D%25E2%259C%2593&state%3Dclosed&milestone_title%3DSetup%2520OpenVZ%2520cluster%2520automation%2520on%2520local%2520machine][ref]]    |
    |---+----+----+-----+-----------------------------+------+--------+-----+-----+--------|
    |   | 2. | 2. |     | [[https://gitlab.com/vlead-systems/cluster-automation/milestones/6][Automate enabling ADS hooks]] | [[Automate enabling ADS hooks on ADS server][ref]]  | Open   |   0 |   0 |        |
    |---+----+----+-----+-----------------------------+------+--------+-----+-----+--------|
-   |   |    |    |     | Total                       |      |        |  92 |  87 |        |
-   | ^ |    |    |     |                             |      |        |  et |  87 |        |
+   |   |    |    |     | Total                       |      |        |  84 | 111 |        |
+   | ^ |    |    |     |                             |      |        |  et |  at |        |
    |---+----+----+-----+-----------------------------+------+--------+-----+-----+--------|
   #+TBLFM: $2=@#+1
   #+TBLFM: @3$8=remote(rlz-pln-ml-5, $est)
@@ -84,13 +84,10 @@
 |   |   10. | Install dependecies                              | [[https://gitlab.com/vlead-systems/cluster-automation/issues/23][#23]]    |        8 |     16 | [2017-10-25 Wed] | [2017-10-27 Fri] | Done   | Siva &     |
 |   |       | on ADS container                                 |        |          |        |                  | [2017-10-30 Mon] |        | Raghupathi |
 |---+-------+--------------------------------------------------+--------+----------+--------+------------------+------------------+--------+------------|
-|   |   11. | Configure ADS using                              | [[https://gitlab.com/vlead-systems/cluster-automation/issues/23][#23]]    |        8 |     16 | [2017-11-01 Wed] | [2017-11-01 Wed] | Done   | Siva &     |
-|   |       | ansible scripts                                  |        |          |        |                  | [2017-11-03 Fri] |        | Raghupathi |
+|   |   11. | Configure ADS using                              | [[https://gitlab.com/vlead-systems/cluster-automation/issues/23][#23]]    |        8 |     40 | [2017-11-01 Wed] | [2017-11-01 Wed] | Done   | Siva &     |
+|   |       | ansible scripts                                  |        |          |        |                  | [2017-11-08 Wed] |        | Raghupathi |
 |---+-------+--------------------------------------------------+--------+----------+--------+------------------+------------------+--------+------------|
-|   |   12. | Copy public-key of ads server                    | [[https://gitlab.com/vlead-systems/cluster-automation/issues/24][#24]]    |        8 |        | [2017-11-03 Fri] | [2017-11-03 Fri] |        |            |
-|   |       | to ansible server's vlead user                   |        |          |        |                  |                  |        |            |
-|---+-------+--------------------------------------------------+--------+----------+--------+------------------+------------------+--------+------------|
-|   | Total |                                                  |        |       92 |     87 |                  |                  |        |            |
+|   | Total |                                                  |        |       84 |    111 |                  |                  |        |            |
 | ^ |       |                                                  |        |      est |    act |                  |                  |        |            |
 |---+-------+--------------------------------------------------+--------+----------+--------+------------------+------------------+--------+------------|
 #+TBLFM: $2=@#+1
