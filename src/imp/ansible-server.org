@@ -812,7 +812,7 @@ dependencies:
      replace: 
       path: ovpl/config/config.json
       regexp: '"HTTP_PROXY":.*'
-      replace: '"HTTP_PROXY": "{{proxy_env.http_proxy}}"'
+      replace: '"HTTP_PROXY": "{{proxy_env.http_proxy}}",'
 
    - name: Set HTTPS_PROXY proxy in config.json file
      replace: 
