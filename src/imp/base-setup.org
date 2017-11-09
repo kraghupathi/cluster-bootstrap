@@ -47,11 +47,6 @@
    - name: Network restart
      service: name=network state=restarted 
 
-   - name: install the latest version of libselinux-python
-     yum:
-      name: libselinux-python
-      state: latest
-
 #+END_SRC
 
 *** Create eth0 interface on host machine.
@@ -67,6 +62,11 @@
     command: chkconfig network on
     register: out
   - debug: var=out.stdout_lines
+
+  - name: install the latest version of libselinux-python
+    yum:
+     name: libselinux-python
+     state: latest
    
   - name: Make ifcfg-eth0 file empty if there is any
     copy: 
