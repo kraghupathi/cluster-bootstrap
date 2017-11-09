@@ -23,7 +23,8 @@
     
 #+BEGIN_SRC yml :tangle roles/basesetup/tasks/br0.yml
 ---
-   - copy: 
+   - name: Make ifcfg-eth0 file empty if there is any
+     copy: 
        content: ""      
        dest: "/etc/sysconfig/network-scripts/ifcfg-br0"
    
@@ -57,22 +58,31 @@
     Similar to above file,this also create ifcfg-eth0 file in /etc/sysconfig/network-scripts/ and adds data mentioned in block field to the file 
 #+BEGIN_SRC yml :tangle roles/basesetup/tasks/eth0.yml
 ---
-   
-   - copy: 
-      content: ""      
-      dest: "/etc/sysconfig/network-scripts/ifcfg-eth0" 
-  
-   - name: creating eth0 bridge
-     blockinfile:
-        path: /etc/sysconfig/network-scripts/ifcfg-eth0
-        block: |
-         DEVICE=eth0
-         TYPE=Ethernet
-         ONBOOT=yes
-         NM_CONTROLLED=no
-         BOOTPROTO=none
-         BRIDGE=br0
+  - name: Network Manager off
+    command: chkconfig NetworkManager off
+    register: out
+  - debug: var=out.stdout_lines
 
+  - name: Network on
+    command: chkconfig network on
+    register: out
+  - debug: var=out.stdout_lines
+   
+  - name: Make ifcfg-eth0 file empty if there is any
+    copy: 
+     content: ""      
+     dest: "/etc/sysconfig/network-scripts/ifcfg-eth0" 
+  
+  - name: Creating eth0 bridge
+    blockinfile:
+       path: /etc/sysconfig/network-scripts/ifcfg-eth0
+       block: |
+        DEVICE=eth0
+        TYPE=Ethernet
+        ONBOOT=yes
+        NM_CONTROLLED=no
+        BOOTPROTO=none
+        BRIDGE=br0
 ...
     
 #+END_SRC
@@ -83,8 +93,8 @@
     and restarts.Now you can see the bridges on your machine using brctl show command.
 #+BEGIN_SRC yml :tangle roles/basesetup/tasks/br1.yml
 ---
-
-  - copy: 
+  - name: Make ifcfg-br1 file empty if there is any
+    copy: 
      content: ""      
      dest: "/etc/sysconfig/network-scripts/ifcfg-br1"
       
@@ -97,22 +107,10 @@
         ONBOOT=yes
         NM_CONTROLLED=no
         BOOTPROTO=none
+  - name : Restart network 
+    service: name=network state=restarted
 
-  - service:
-     name: network
-     state: restarted
-
-  - name: Network Manager off
-    command: chkconfig NetworkManager off
-    register: out
-  - debug: var=out.stdout_lines
-
-  - name: Network on
-    command: chkconfig network on
-    register: out
-  - debug: var=out.stdout_lines
-
-  - name: Running brctl show command
+  - name: Show bridges using brctl
     command: brctl show
     register: out
   - debug: var=out.stdout_lines
