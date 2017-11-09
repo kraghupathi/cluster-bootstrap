@@ -105,13 +105,14 @@
      then
      vzctl set $i --hostname nagios.$cluster.vlabs.ac.in --save
      vzctl set $i --netif_add eth1,,,,$private_bridge --save
-     vzctl set $i --diskspace 10G:15G --save
+
      vzctl start $i
      vzctl set $i --onboot yes --save
      elif [ $i == 1009 ]
      then
      vzctl set $i --hostname ads.$cluster.vlabs.ac.in --save
      vzctl set $i --netif_add eth1,,,,$private_bridge --diskspace 20G --save
+     vzctl set $i --diskspace 10G:15G --save
      vzctl start $i
      vzctl set $i --onboot yes --save
      elif [ $i == 1010 ]

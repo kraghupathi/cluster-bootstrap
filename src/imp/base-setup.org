@@ -183,13 +183,11 @@
   register: out
 - debug: var=out.stdout_lines
 
-
 - name: Creating and configuring ~/.ssh/config to clone system model
   template: src=ssh-config dest=~/.ssh/config mode=400
 
-
 - name: clonning systems-model repo
-  git: repo="{{systems_model_repo}}" dest="{{systems_model_dest}}" version=cluster-automation accept_hostkey=yes
+  command: git clone -b "{{systems_model_repo_branch}}" "{{systems_model_repo}}" "{{systems_model_dest}}"
   environment: "{{proxy_env}}"
 
 #+END_SRC
@@ -291,7 +289,7 @@ Host gitlab.com
           regexp: 'export https_proxy=""'
           replace: 'export https_proxy="{{proxy_env.https_proxy}}"'
 
-    - name: running install_openvz.sh shell script
+    - name: running install_openvz.sh shell script. NOTE, System WILL BE REBOOTING AUTOMATICALLY after this TASK
       command: ./install_openvz.sh
       register: out
       args:
