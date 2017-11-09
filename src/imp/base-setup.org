@@ -55,6 +55,7 @@
 ---
   - name: Network Manager off
     command: chkconfig NetworkManager off
+    ignore_errors: yes
     register: out
   - debug: var=out.stdout_lines
 
