@@ -376,11 +376,29 @@ This script downloads emacs- org-mode
 **** ADS
      Configures ads-server.
 #+begin_src yml :tangle roles/config-with-vlead-user/tasks/ads.yml  
+
 ---
-- name: installing git
-  command: ssh root@10.100.1.9 yum install -y git
+- name: Adding ADS server configuration file into Systems model
+  copy: src=install-ads-dependencies.yml dest=systems-model/build/{{clustername}}/
+
+
+- name: Adding ADS server configuration template into Systems model, so that it becomes one of the server nodes
+  template: src=configure-ads-server.yml  dest=systems-model/build/{{clustername}}/
+
+
+- name: Install ADS server required packages from ansible container
+  command: ansible-playbook -i hosts install-ads-dependencies.yml
   register: out
-- debug: var=out.stdout_lines
+  args: 
+   chdir: systems-model/build/{{clustername}}/
+- debug: var=out.stdout_lines  
+
+- name: Configuring ads server from ansible container
+  command: ansible-playbook -i hosts configure-ads-server.yml 
+  register: out
+  args: 
+   chdir: systems-model/build/{{clustername}}/
+- debug: var=out.stdout_lines  
 
 - name: Generating sshkeys
   command: ssh root@10.100.1.9 "ssh-keygen -t rsa -f ~/.ssh/id_rsa| echo no"
@@ -391,13 +409,7 @@ This script downloads emacs- org-mode
   command: ssh root@10.100.1.9 "cat ~/.ssh/id_rsa.pub"
   register: ssh_keys
 
-- name: installing epel-release and sshpass
-  command: ssh root@10.100.1.9 "{{item}}"
-  with_items:
-   - export http_proxy={{proxy_env.http_proxy}} 
-   - export https_proxy={{proxy_env.https_proxy}} 
-   - yum install -y epel-release
-   - yum install -y sshpass
+
 - name: Setting StrictHostKeyChecking to  no
   command: ssh root@10.100.1.9 'sed -i "/^StrictHostKeyChecking.*/d" /etc/ssh/ssh_config && echo StrictHostKeyChecking=no >> /etc/ssh/ssh_config'
 
@@ -414,29 +426,8 @@ This script downloads emacs- org-mode
     state: present
     create: yes
   with_items:
-    - 'command="hooks.sh",no-port-forwarding,no-X11-forwarding,no-agent-forwarding,no-pty {{ ssh_keys.stdout }}'
+   - 'command="hooks.sh",no-port-forwarding,no-X11-forwarding,no-agent-forwarding,no-pty {{ ssh_keys.stdout }}'
 
-- name: Adding ADS server configuration file into Systems model
-  copy: src=install-ads-dependencies.yml dest=systems-model/build/{{clustername}}/
-
-
-- name: Adding ADS server configuration template into Systems model, so that it becomes one of the server nodes
-  template: src=configure-ads-server.yml  dest=systems-model/build/{{clustername}}/
-
-
-- name: Install ADS server required packages from ansible container
-  command: ansible-playbook -i hosts install-ads-dependencies.yml
-  register: out
-  args: 
-    chdir: systems-model/build/{{clustername}}/
-- debug: var=out.stdout_lines  
-
-- name: Configuring ads server from ansible container
-  command: ansible-playbook -i hosts configure-ads-server.yml 
-  register: out
-  args: 
-    chdir: systems-model/build/{{clustername}}/
-- debug: var=out.stdout_lines  
 
 #+end_src
 
@@ -490,7 +481,7 @@ This script downloads emacs- org-mode
 
 #this step needs to be changed and done parallel
 
-- name: Configuring all server nodes
+- name: Configuring all server nodes. 
   shell: ansible-playbook -i hosts configure_servers.yaml && sudo iptables -I INPUT 12 -m state --state NEW -s {{hostmachine_ip}}/32 -p tcp -m tcp --dport 22 -j ACCEPT
   register: out
   args:
@@ -676,6 +667,7 @@ dependencies:
 
 #+begin_src yml :tangle roles/config-with-vlead-user/files/install-ads-dependencies.yml
 ---
+
 - hosts: ads_server
   remote_user: root
   
@@ -683,6 +675,20 @@ dependencies:
    - name: Include systmes-model common_vars
      include_vars:
        file: ./roles/common_vars/vars/main.yml
+
+   - name: installing epel-release and sshpass
+     yum: name="{{item}}" state=installed
+     environment: "{{proxy_env}}"
+     with_items:
+      - epel-release
+      - sshpass
+
+   - name: installing git
+     yum: name=git state=installed
+     environment: "{{proxy_env}}"
+     register: out
+   - debug: var=out.stdout_lines
+
    - name: Cloning setup-ovpl-centos repo
      git:
       repo: http://github.com/vlead/setup-ovpl-centos.git
@@ -788,7 +794,6 @@ dependencies:
      args:
       chdir: ~/tornado-4.3
    - debug: var=out.stdout_lines
-
 
 #+end_src
 **** Template to modify ADS configuration files
