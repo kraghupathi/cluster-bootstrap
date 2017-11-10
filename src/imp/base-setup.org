@@ -23,7 +23,8 @@
     
 #+BEGIN_SRC yml :tangle roles/basesetup/tasks/br0.yml
 ---
-   - copy: 
+   - name: Make ifcfg-br0 file empty if there is any
+     copy: 
        content: ""      
        dest: "/etc/sysconfig/network-scripts/ifcfg-br0"
    
@@ -46,33 +47,43 @@
    - name: Network restart
      service: name=network state=restarted 
 
-   - name: install the latest version of libselinux-python
-     yum:
-      name: libselinux-python
-      state: latest
-
 #+END_SRC
 
 *** Create eth0 interface on host machine.
     Similar to above file,this also create ifcfg-eth0 file in /etc/sysconfig/network-scripts/ and adds data mentioned in block field to the file 
 #+BEGIN_SRC yml :tangle roles/basesetup/tasks/eth0.yml
 ---
-   
-   - copy: 
-      content: ""      
-      dest: "/etc/sysconfig/network-scripts/ifcfg-eth0" 
-  
-   - name: creating eth0 bridge
-     blockinfile:
-        path: /etc/sysconfig/network-scripts/ifcfg-eth0
-        block: |
-         DEVICE=eth0
-         TYPE=Ethernet
-         ONBOOT=yes
-         NM_CONTROLLED=no
-         BOOTPROTO=none
-         BRIDGE=br0
+  - name: Network Manager off
+    command: chkconfig NetworkManager off
+    ignore_errors: yes
+    register: out
+  - debug: var=out.stdout_lines
 
+  - name: Network on
+    command: chkconfig network on
+    register: out
+  - debug: var=out.stdout_lines
+
+  - name: install the latest version of libselinux-python
+    yum:
+     name: libselinux-python
+     state: latest
+   
+  - name: Make ifcfg-eth0 file empty if there is any
+    copy: 
+     content: ""      
+     dest: "/etc/sysconfig/network-scripts/ifcfg-eth0" 
+  
+  - name: Creating eth0 bridge
+    blockinfile:
+       path: /etc/sysconfig/network-scripts/ifcfg-eth0
+       block: |
+        DEVICE=eth0
+        TYPE=Ethernet
+        ONBOOT=yes
+        NM_CONTROLLED=no
+        BOOTPROTO=none
+        BRIDGE=br0
 ...
     
 #+END_SRC
@@ -83,8 +94,8 @@
     and restarts.Now you can see the bridges on your machine using brctl show command.
 #+BEGIN_SRC yml :tangle roles/basesetup/tasks/br1.yml
 ---
-
-  - copy: 
+  - name: Make ifcfg-br1 file empty if there is any
+    copy: 
      content: ""      
      dest: "/etc/sysconfig/network-scripts/ifcfg-br1"
       
@@ -97,22 +108,10 @@
         ONBOOT=yes
         NM_CONTROLLED=no
         BOOTPROTO=none
+  - name : Restart network 
+    service: name=network state=restarted
 
-  - service:
-     name: network
-     state: restarted
-
-  - name: Network Manager off
-    command: chkconfig NetworkManager off
-    register: out
-  - debug: var=out.stdout_lines
-
-  - name: Network on
-    command: chkconfig network on
-    register: out
-  - debug: var=out.stdout_lines
-
-  - name: Running brctl show command
+  - name: Show bridges using brctl
     command: brctl show
     register: out
   - debug: var=out.stdout_lines
@@ -183,13 +182,12 @@
   register: out
 - debug: var=out.stdout_lines
 
-
 - name: Creating and configuring ~/.ssh/config to clone system model
   template: src=ssh-config dest=~/.ssh/config mode=400
 
-
-- name: clonning systems-model repo
-  git: repo="{{systems_model_repo}}" dest="{{systems_model_dest}}" version=cluster-automation accept_hostkey=yes
+- name: Clonning systems-model repo; If repo already exist ignores the task
+  command: git clone -b "{{systems_model_repo_branch}}" "{{systems_model_repo}}" "{{systems_model_dest}}"
+  ignore_errors: yes
   environment: "{{proxy_env}}"
 
 #+END_SRC
@@ -291,7 +289,7 @@ Host gitlab.com
           regexp: 'export https_proxy=""'
           replace: 'export https_proxy="{{proxy_env.https_proxy}}"'
 
-    - name: running install_openvz.sh shell script
+    - name: running install_openvz.sh shell script. May take 5 to 10 minutes. NOTE, System WILL BE REBOOTING AUTOMATICALLY after this TASK
       command: ./install_openvz.sh
       register: out
       args:

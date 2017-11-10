@@ -51,43 +51,45 @@
 ** Common Variables
 *** Variable Description
 
-|------+---------------------+-------------------------+-------------------------------------------------------------------------+---|
-| S.no | Variable            | Variable Name           | Description                                                             |   |
-|------+---------------------+-------------------------+-------------------------------------------------------------------------+---|
-|   1. | Proxy Environment   | proxy_env               | Defines the proxy configuration in case direct access                   |   |
-|      |                     |                         | to internet is not available                                            |   |
-|------+---------------------+-------------------------+-------------------------------------------------------------------------+---|
-|   2. | HTTP Proxy          | http_proxy              | Defines url of proxy server used by nodes to connect to                 |   |
-|      |                     |                         | http service for internet access                                        |   |
-|------+---------------------+-------------------------+-------------------------------------------------------------------------+---|
-|   3. | HTTPS Proxy         | https_proxy             | Defines url of proxy server used by nodes to connect to https           |   |
-|      |                     |                         | service for internet access                                             |   |
-|------+---------------------+-------------------------+-------------------------------------------------------------------------+---|
-|   4. | Ansible Server IP   | ipaddress.config_server | Defines the  ip-address of ansible server                               |   |
-|------+---------------------+-------------------------+-------------------------------------------------------------------------+---|
-|   5. | SMTP Smart host     | smtp_smart_host         | Defines the SMTP smart host via which various servers can send          |   |
-|------+---------------------+-------------------------+-------------------------------------------------------------------------+---|
-|   6. | Local Subnet        | subnet                  | Defines the subnet of the network                                       |   |
-|------+---------------------+-------------------------+-------------------------------------------------------------------------+---|
-|   7. | Router Interface IP | ipaddress.router        | Defines the interface of router node                                    |   |
-|------+---------------------+-------------------------+-------------------------------------------------------------------------+---|
-|   8. | Nagios Server IP    | nagios_server_ips       | Defines the ip address of nagios server                                 |   |
-|------+---------------------+-------------------------+-------------------------------------------------------------------------+---|
-|   9. | Cluster Name        | {{clustername}}         | Defines the cluster name                                                |   |
-|------+---------------------+-------------------------+-------------------------------------------------------------------------+---|
-|      | Dns                 | dnsaddress.dns1         | Defines dns of network                                                  |   |
-|  10. |                     | dnsaddress.dns2         |                                                                         |   |
-|------+---------------------+-------------------------+-------------------------------------------------------------------------+---|
-|  11. | Internet Gateway    | internet_gateway        | Defines the gateway of network                                          |   |
-|------+---------------------+-------------------------+-------------------------------------------------------------------------+---|
-|  12. | Proxy port number   | proxy_port              | Defines the port number through which internet works                    |   |
-|------+---------------------+-------------------------+-------------------------------------------------------------------------+---|
-|  13. | centos template     | centos_template         | Defines the link/url from which latest template of centos is downloaded |   |
-|------+---------------------+-------------------------+-------------------------------------------------------------------------+---|
-|  14. | system-model-repo   | systems_model_repo      | Defines the url of bitbucket from which system-model is cloned          |   |
-|------+---------------------+-------------------------+-------------------------------------------------------------------------+---|
-|  15. |                     |                         |                                                                         |   |
-|------+---------------------+-------------------------+-------------------------------------------------------------------------+---|
+|------+---------------------------+---------------------------+-------------------------------------------------------------------------|
+| S.no | Variable                  | Variable Name             | Description                                                             |
+|------+---------------------------+---------------------------+-------------------------------------------------------------------------|
+|   1. | Proxy Environment         | proxy_env                 | Defines the proxy configuration in case direct access                   |
+|      |                           |                           | to internet is not available                                            |
+|------+---------------------------+---------------------------+-------------------------------------------------------------------------|
+|   2. | HTTP Proxy                | http_proxy                | Defines url of proxy server used by nodes to connect to                 |
+|      |                           |                           | http service for internet access                                        |
+|------+---------------------------+---------------------------+-------------------------------------------------------------------------|
+|   3. | HTTPS Proxy               | https_proxy               | Defines url of proxy server used by nodes to connect to https           |
+|      |                           |                           | service for internet access                                             |
+|------+---------------------------+---------------------------+-------------------------------------------------------------------------|
+|   4. | Ansible Server IP         | ipaddress.config_server   | Defines the  ip-address of ansible server                               |
+|------+---------------------------+---------------------------+-------------------------------------------------------------------------|
+|   5. | SMTP Smart host           | smtp_smart_host           | Defines the SMTP smart host via which various servers can send          |
+|------+---------------------------+---------------------------+-------------------------------------------------------------------------|
+|   6. | Local Subnet              | subnet                    | Defines the subnet of the network                                       |
+|------+---------------------------+---------------------------+-------------------------------------------------------------------------|
+|   7. | Router Interface IP       | ipaddress.router          | Defines the interface of router node                                    |
+|------+---------------------------+---------------------------+-------------------------------------------------------------------------|
+|   8. | Nagios Server IP          | nagios_server_ips         | Defines the ip address of nagios server                                 |
+|------+---------------------------+---------------------------+-------------------------------------------------------------------------|
+|   9. | Cluster Name              | {{clustername}}           | Defines the cluster name                                                |
+|------+---------------------------+---------------------------+-------------------------------------------------------------------------|
+|      | Dns                       | dnsaddress.dns1           | Defines dns of network                                                  |
+|  10. |                           | dnsaddress.dns2           |                                                                         |
+|------+---------------------------+---------------------------+-------------------------------------------------------------------------|
+|  11. | Internet Gateway          | internet_gateway          | Defines the gateway of network                                          |
+|------+---------------------------+---------------------------+-------------------------------------------------------------------------|
+|  12. | Proxy port number         | proxy_port                | Defines the port number through which internet works                    |
+|------+---------------------------+---------------------------+-------------------------------------------------------------------------|
+|  13. | centos template           | centos_template           | Defines the link/url from which latest template of centos is downloaded |
+|------+---------------------------+---------------------------+-------------------------------------------------------------------------|
+|  14. | system-model-repo         | systems_model_repo        | Defines the url of bitbucket from which system-model is cloned          |
+|------+---------------------------+---------------------------+-------------------------------------------------------------------------|
+|  15. | hostmachine_password      | hostmachine_password      | Define the password of hostmachine's root password                      |
+|------+---------------------------+---------------------------+-------------------------------------------------------------------------|
+|  16. | systems_model_repo_branch | systems_model_repo_branch | Define the branch to be cloned from systems-model repo                  |
+|------+---------------------------+---------------------------+-------------------------------------------------------------------------|
 
 
 ** Generate yml files of common_vars role
@@ -133,10 +135,8 @@ corkscrew_url2: http://wiki.kartbuilding.net/corkscrew-2.0.tar.gz
 
 centos_template: http://files.vlabs.ac.in/downloads/templates/centos-6.9-x86-base.tar.gz
 
-#systems_model_repo: git@altssh.bitbucket.org:vlead/systems-model.git
-
 systems_model_repo: git@gitlab.com:vlead-systems/systems-model.git
-
+systems_model_repo_branch: cluster-automation
 systems_model_dest: "{{corkscrew_dest}}/systems-model"
 
 ipaddress:
