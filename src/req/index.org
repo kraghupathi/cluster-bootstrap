@@ -13,4 +13,13 @@
    playbooks.
    
    Implementation of this requirement is [[../imp/index.org][here]] 
-   
+** Req 2
+   Enable Hooks between ADS server and Config/Ansible
+   server. 
+
+   These hooks are needed to update the entries in reverse
+   proxy, public dns and private dns servers of
+   systems-model when the lab/service is hosted using ADS
+   server.
+
+   Implementation of this requirement is [[../imp/ansible-server.org::#ads_server][here]] 

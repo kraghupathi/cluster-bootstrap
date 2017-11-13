@@ -374,6 +374,10 @@ This script downloads emacs- org-mode
 - debug: var=out.stdout_lines
 #+END_SRC
 **** ADS
+     :PROPERTIES:
+     :CUSTOM_ID: ads_server
+     :END:      
+
      Configures ads-server.
 #+begin_src yml :tangle roles/config-with-vlead-user/tasks/ads.yml  
 
