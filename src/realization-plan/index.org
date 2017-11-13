@@ -110,7 +110,7 @@
   |   | 1.    | Copy public-key of ads server   | [[https://gitlab.com/vlead-systems/cluster-automation/issues/24][#24]]     | 8        | 10     | [2017-11-07 Tue] | [2017-11-09 Thu] | Done        | Siva Shanker |
   |   |       | to ansible server's vlead user  |         |          |        |                  | [2017-11-10 Fri] |             |              |
   |---+-------+---------------------------------+---------+----------+--------+------------------+------------------+-------------+--------------|
-  |   | 2.    | Update nameserver in ADS server | [[https://gitlab.com/vlead-systems/cluster-automation/issues/25][#25]]     | 4        |        |                  | [2017-11-10 Fri] | In Progress | Siva Shanker |
+  |   | 2.    | Update nameserver in ADS server | [[https://gitlab.com/vlead-systems/cluster-automation/issues/25][#25]]     | 4        |        | [2017-11-13 Mon] | [2017-11-13 Mon] | In Progress | Siva Shanker |
   |   |       |                                 |         |          |        |                  |                  |             |              |
   |---+-------+---------------------------------+---------+----------+--------+------------------+------------------+-------------+--------------|
   |   | Total |                                 |         | 12       | 10     |                  |                  |             |              |
