@@ -927,6 +927,14 @@ dependencies:
         regexp: "^APP_URL .*"
         line: 'APP_URL = "http://ads.{{clustername}}.virtual-labs.ac.in:8080"'
         state: present
+
+   - name: set name server to cluster private dns
+     lineinfile: 
+       path: /etc/resolv.conf
+       insertbefore: BOF
+       line: "nameserver 10.100.1.5"
+       state: present
+
 #+end_src
   
 
