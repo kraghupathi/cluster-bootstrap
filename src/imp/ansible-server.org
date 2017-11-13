@@ -440,14 +440,10 @@ This script downloads emacs- org-mode
      known-hosts with some necessary changes
 #+begin_src yml :tangle roles/config-with-vlead-user/tasks/knownhost.yml
 ---
-- name: Get public key from ADS server from root account
+- name: Get public key of ansible server 
   command: "cat ~/.ssh/id_rsa.pub"
   register: ssh_keys
 
-- name: check keys
-  debug: msg="{{ ssh_keys.stdout }}"
-  tags:
-   - ssh
 - name: Delopying keys on localhost at vlead 
   lineinfile: path=~/.ssh/known_hosts regexp="^ansible.{{clustername}}.vlabs.ac.in.*"  line='ansible.{{clustername}}.vlabs.ac.in {{ssh_keys.stdout}}' state=present
  
