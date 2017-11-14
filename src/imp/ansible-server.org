@@ -932,7 +932,7 @@ dependencies:
      lineinfile: 
        path: /etc/resolv.conf
        insertbefore: BOF
-       line: "nameserver {{private_dns_ips[0]}}"
+       line: "nameserver 10.100.1.5"
        state: present
 
    - name: Update bashrc with export http_proxy
