@@ -129,6 +129,17 @@ echo 'sed -i "/ansible-playbook.*/d" '$RC_LOCAL'' >> $RC_LOCAL
 echo 'sed -i "/cluster-automation.*/d" '$RC_LOCAL'' >> $RC_LOCAL
 cat ~/.ssh/id_rsa.pub
 
+echo -e "\n\n Steps to add above displayed host machine's public key in GitLab systems-model repository\n\n\n"
+echo -e "1. Copy host machine's public key.\n
+echo -e "       #+BEGIN_EXAMPLE\n"
+echo -e "       cat ~/.ssh/id_rsa.pub\n"
+echo -e "       #+END_EXAMPLE\n"
+echo -e "    2. Got to  [[https://gitlab.com/vlead-systems/systems-model/settings/repository][systems-model repo on gitlab.com]]\n"
+echo -e "    3. Navigate to =Deploy Keys= and click on =Expand= button.\n"
+echo -e "    4. Give a Title in the =Title= text box\n"
+echo -e "    5. Paste the copied public in =Key= text box \n"
+echo -e "    6. Click on =Add Key= button to save.\n"
+
 echo -e "\n\nPlease add above diplayed key in systems-model repository."
 echo -e "\n\nPlease press Y or y to continue."
 read -p "Have you added host machine's public key ( ~/.ssh/id_rsa.pub) in gitlab.com in systems-model repository(Y/y):: " -n 1 -r
