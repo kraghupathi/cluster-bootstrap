@@ -19,9 +19,9 @@
    |---+----+----+-----+-----------------------------+------+--------+-----+-----+--------|
    |   | 1. | 1. |     | [[https://gitlab.com/vlead-systems/cluster-automation/milestones/5][ADS configuration]]           | [[ADS Configuration][ref]]  | Closed |  84 | 111 | [[https://gitlab.com/vlead-systems/cluster-automation/issues?scope%3Dall&utf8%3D%25E2%259C%2593&state%3Dclosed&milestone_title%3DSetup%2520OpenVZ%2520cluster%2520automation%2520on%2520local%2520machine][ref]]    |
    |---+----+----+-----+-----------------------------+------+--------+-----+-----+--------|
-   |   | 2. | 2. |     | [[https://gitlab.com/vlead-systems/cluster-automation/milestones/6][Automate enabling ADS hooks]] | [[Automate enabling ADS hooks on ADS server][ref]]  | Open   |  12 |  10 |        |
+   |   | 2. | 2. |     | [[https://gitlab.com/vlead-systems/cluster-automation/milestones/6][Automate enabling ADS hooks]] | [[Automate enabling ADS hooks on ADS server][ref]]  | Open   |  25 |  17 |        |
    |---+----+----+-----+-----------------------------+------+--------+-----+-----+--------|
-   |   |    |    |     | Total                       |      |        |  92 | 121 |        |
+   |   |    |    |     | Total                       |      |        | 109 | 128 |        |
    | ^ |    |    |     |                             |      |        |  et |  at |        |
    |---+----+----+-----+-----------------------------+------+--------+-----+-----+--------|
   #+TBLFM: $2=@#+1
@@ -100,22 +100,32 @@
 ** Automate enabling ADS hooks on ADS server
    #+caption: realization-plan
    #+name: rlz-pln-ml-6
-  |---+-------+---------------------------------+---------+----------+--------+------------------+------------------+-------------+--------------|
-  |   | S.    | Tasks                           | Github/ | Expected | Actual | Estimated        | Actual           | Status      | Assignee     |
-  |   | NO    |                                 | GitLab/ | Effort   | Effort | Start/           | Start,           |             |              |
-  |   |       |                                 | Issues  | (in      | (in    | End              | End              |             |              |
-  |   |       |                                 |         | person   | person | Dates            | Dates            |             |              |
-  |   |       |                                 |         | hours)   | hours) |                  |                  |             |              |
-  |---+-------+---------------------------------+---------+----------+--------+------------------+------------------+-------------+--------------|
-  |   | 1.    | Copy public-key of ads server   | [[https://gitlab.com/vlead-systems/cluster-automation/issues/24][#24]]     | 8        | 10     | [2017-11-07 Tue] | [2017-11-09 Thu] | Done        | Siva Shanker |
-  |   |       | to ansible server's vlead user  |         |          |        |                  | [2017-11-10 Fri] |             |              |
-  |---+-------+---------------------------------+---------+----------+--------+------------------+------------------+-------------+--------------|
-  |   | 2.    | Update nameserver in ADS server | [[https://gitlab.com/vlead-systems/cluster-automation/issues/25][#25]]     | 4        |        | [2017-11-13 Mon] | [2017-11-13 Mon] | In Progress | Siva Shanker |
-  |   |       |                                 |         |          |        |                  |                  |             |              |
-  |---+-------+---------------------------------+---------+----------+--------+------------------+------------------+-------------+--------------|
-  |   | Total |                                 |         | 12       | 10     |                  |                  |             |              |
-  | ^ |       |                                 |         | est      | act    |                  |                  |             |              |
-  |---+-------+---------------------------------+---------+----------+--------+------------------+------------------+-------------+--------------|
+  |---+-------+------------------------------------+---------+----------+--------+------------------+------------------+-------------+--------------|
+  |   |    S. | Tasks                              | Github/ | Expected | Actual | Estimated        | Actual           | Status      | Assignee     |
+  |   |    NO |                                    | GitLab/ |   Effort | Effort | Start/           | Start,           |             |              |
+  |   |       |                                    | Issues  |      (in | (in    | End              | End              |             |              |
+  |   |       |                                    |         |   person | person | Dates            | Dates            |             |              |
+  |   |       |                                    |         |   hours) | hours) |                  |                  |             |              |
+  |---+-------+------------------------------------+---------+----------+--------+------------------+------------------+-------------+--------------|
+  |   |    1. | Copy public-key of ads server      | [[https://gitlab.com/vlead-systems/cluster-automation/issues/24][#24]]     |        8 | 10     | [2017-11-07 Tue] | [2017-11-09 Thu] | Done        | Siva Shanker |
+  |   |       | to ansible server's vlead user     |         |          |        |                  | [2017-11-10 Fri] |             |              |
+  |---+-------+------------------------------------+---------+----------+--------+------------------+------------------+-------------+--------------|
+  |   |    2. | Update nameserver in ADS server    | [[https://gitlab.com/vlead-systems/cluster-automation/issues/25][#25]]     |        4 | 5      | [2017-11-13 Mon] | [2017-11-13 Mon] | Done        | Siva Shanker |
+  |---+-------+------------------------------------+---------+----------+--------+------------------+------------------+-------------+--------------|
+  |   |    3. | Set proxy in ADS server            | [[https://gitlab.com/vlead-systems/cluster-automation/issues/26][#26]]     |        2 | 2      | [2017-11-13 Mon] | [2017-11-13 Mon] | Done        | Siva Shanker |
+  |   |       | to run ads-web-app/app.py          |         |          |        |                  |                  |             |              |
+  |---+-------+------------------------------------+---------+----------+--------+------------------+------------------+-------------+--------------|
+  |   |    4. | Testing 3                          | [[https://gitlab.com/vlead-systems/cluster-automation/issues/26][#26]]     |        2 |        | [2017-11-14 Tue] | [2017-11-14 Tue] | In progress | Siva Shanker |
+  |---+-------+------------------------------------+---------+----------+--------+------------------+------------------+-------------+--------------|
+  |   |    5. | update steps for adding public-key | [[https://gitlab.com/vlead-systems/cluster-automation/issues/27][#27]]     |        1 |        | [2017-11-14 Tue] |                  |             | Siva Shanker |
+  |   |       | on GitLab Systems-model repo       |         |          |        |                  |                  |             |              |
+  |---+-------+------------------------------------+---------+----------+--------+------------------+------------------+-------------+--------------|
+  |   |    6. | One place to edit variables        | [[https://gitlab.com/vlead-systems/cluster-automation/issues/28][#28]]     |        8 |        | [2017-11-15 Wed] |                  | TBD         | Siva Shanker |
+  |   |       | of cluster-automation              |         |          |        |                  |                  |             |              |
+  |---+-------+------------------------------------+---------+----------+--------+------------------+------------------+-------------+--------------|
+  |   | Total |                                    |         |       25 | 17     |                  |                  |             |              |
+  | ^ |       |                                    |         |      est | act    |                  |                  |             |              |
+  |---+-------+------------------------------------+---------+----------+--------+------------------+------------------+-------------+--------------|
 #+TBLFM: $2=@#+1
 #+TBLFM: $est=vsum(@II+1..@-1)
 #+TBLFM: $act=vsum(@II+1..@-1)

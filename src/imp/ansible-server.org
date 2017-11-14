@@ -374,6 +374,10 @@ This script downloads emacs- org-mode
 - debug: var=out.stdout_lines
 #+END_SRC
 **** ADS
+     :PROPERTIES:
+     :CUSTOM_ID: ads_server
+     :END:      
+
      Configures ads-server.
 #+begin_src yml :tangle roles/config-with-vlead-user/tasks/ads.yml  
 
@@ -436,14 +440,10 @@ This script downloads emacs- org-mode
      known-hosts with some necessary changes
 #+begin_src yml :tangle roles/config-with-vlead-user/tasks/knownhost.yml
 ---
-- name: Get public key from ADS server from root account
+- name: Get public key of ansible server 
   command: "cat ~/.ssh/id_rsa.pub"
   register: ssh_keys
 
-- name: check keys
-  debug: msg="{{ ssh_keys.stdout }}"
-  tags:
-   - ssh
 - name: Delopying keys on localhost at vlead 
   lineinfile: path=~/.ssh/known_hosts regexp="^ansible.{{clustername}}.vlabs.ac.in.*"  line='ansible.{{clustername}}.vlabs.ac.in {{ssh_keys.stdout}}' state=present
  
@@ -932,9 +932,24 @@ dependencies:
      lineinfile: 
        path: /etc/resolv.conf
        insertbefore: BOF
-       line: "nameserver 10.100.1.5"
+       line: "nameserver {{private_dns_ips[0]}}"
        state: present
 
+   - name: Update bashrc with export http_proxy
+     lineinfile: 
+       path: ~/.bashrc
+       insertafter: EOF 
+       line: 'export http_proxy="{{proxy_env.http_proxy}}"'
+       state: present
+
+   - name: Update bashrc with export https_proxy
+     lineinfile: 
+       path: ~/.bashrc
+       insertafter: EOF 
+       line: 'export https_proxy="{{proxy_env.http_proxy}}"'
+       state: present
+   - name: Run source ~/.bashrc file to update proxy( Above tasks)
+     shell: source ~/.bashrc
 #+end_src
   
 
