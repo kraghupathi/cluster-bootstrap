@@ -130,6 +130,21 @@
     *To run this ansible playbook/script, host machine's public_key
     =id_rsa.pub= should be added in [[https://gitlab.com/vlead-systems/systems-model/settings/repository][Deploy keys on gitlab.com]]
     manually*.
+   
+    Steps to add host machine's public key in GitLab
+    systems-model:
+
+    1. Copy host machine's public key.
+       #+BEGIN_EXAMPLE
+       cat ~/.ssh/id_rsa.pub
+       #+END_EXAMPLE
+    2. Got to  [[https://gitlab.com/vlead-systems/systems-model/settings/repository][systems-model repo on gitlab.com]]
+    3. Navigate to =Deploy Keys= and click on =Expand=
+       button.
+    4. Give a Title in the =Title= text box
+    5. Paste the copied public in =Key= text box 
+    6. Click on =Add Key= button to save.
+
 
 #+BEGIN_SRC yml :tangle roles/basesetup/tasks/corkscrew_installation.yml
 ---
