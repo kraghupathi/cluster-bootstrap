@@ -21,9 +21,9 @@
    |---+----+----+-----+-----------------------------+------+--------+-----+-----+--------|
    |   | 2. | 2. |     | [[https://gitlab.com/vlead-systems/cluster-automation/milestones/6][Automate enabling ADS hooks]] | [[Automate enabling ADS hooks on ADS server][ref]]  | Closed |  17 |  21 | [[https://gitlab.com/vlead-systems/cluster-automation/milestones/6][ref]]    |
    |---+----+----+-----+-----------------------------+------+--------+-----+-----+--------|
-   |   | 3. |    |     | [[https://gitlab.com/vlead-systems/cluster-automation/milestones/7][One common file to edit]]     | [[One common file to edit and for setup OpenVZ cluster][ref]]  | Open   |   8 |   0 |        |
+   |   | 3. |    |     | [[https://gitlab.com/vlead-systems/cluster-automation/milestones/7][One common file to edit]]     | [[One common file to edit and for setup OpenVZ cluster][ref]]  | Open   |  10 |   2 |        |
    |---+----+----+-----+-----------------------------+------+--------+-----+-----+--------|
-   |   |    |    |     | Total                       |      |        | 109 | 132 |        |
+   |   |    |    |     | Total                       |      |        | 111 | 134 |        |
    | ^ |    |    |     |                             |      |        |  et |  at |        |
    |---+----+----+-----+-----------------------------+------+--------+-----+-----+--------|
   #+TBLFM: $2=@#+1
@@ -135,19 +135,24 @@
 
    #+caption: realization-plan
    #+name: rlz-pln-ml-7
-  |---+-------+-----------------------------+---------+----------+--------+------------------+--------+--------+--------------|
-  |   | S.    | Tasks                       | Github/ | Expected | Actual | Estimated        | Actual | Status | Assignee     |
-  |   | NO    |                             | GitLab/ | Effort   | Effort | Start/           | Start, |        |              |
-  |   |       |                             | Issues  | (in      | (in    | End              | End    |        |              |
-  |   |       |                             |         | person   | person | Dates            | Dates  |        |              |
-  |   |       |                             |         | hours)   | hours) |                  |        |        |              |
-  |---+-------+-----------------------------+---------+----------+--------+------------------+--------+--------+--------------|
-  |   | 1.    | One place to edit variables | [[https://gitlab.com/vlead-systems/cluster-automation/issues/28][#28]]     | 8        |        | [2017-11-15 Wed] |        | TBD    | Siva Shanker |
-  |   |       | of cluster-automation       |         |          |        |                  |        |        |              |
-  |---+-------+-----------------------------+---------+----------+--------+------------------+--------+--------+--------------|
-  |   | Total |                             |         | 8        | 0      |                  |        |        |              |
-  | ^ |       |                             |         | est      | act    |                  |        |        |              |
-  |---+-------+-----------------------------+---------+----------+--------+------------------+--------+--------+--------------|
+  |---+-------+--------------------------------------+---------+----------+--------+------------------+------------------+--------+--------------|
+  |   |    S. | Tasks                                | Github/ | Expected | Actual | Estimated        | Actual           | Status | Assignee     |
+  |   |    NO |                                      | GitLab/ | Effort   | Effort | Start/           | Start,           |        |              |
+  |   |       |                                      | Issues  | (in      | (in    | End              | End              |        |              |
+  |   |       |                                      |         | person   | person | Dates            | Dates            |        |              |
+  |   |       |                                      |         | hours)   | hours) |                  |                  |        |              |
+  |---+-------+--------------------------------------+---------+----------+--------+------------------+------------------+--------+--------------|
+  |   |    1. | One place to edit variables          | [[https://gitlab.com/vlead-systems/cluster-automation/issues/28][#28]]     | 8        |        | [2017-11-15 Wed] |                  | TBD    | Siva Shanker |
+  |   |       | of cluster-automation                |         |          |        |                  |                  |        |              |
+  |---+-------+--------------------------------------+---------+----------+--------+------------------+------------------+--------+--------------|
+  |   |    2. | Comment a line ads-web-app/config.py | [[https://gitlab.com/vlead-systems/cluster-automation/issues/30][#30]]     | 1        | 1      | [2017-11-15 Wed] | [2017-11-15 Wed] | Done   | Siva Shanker |
+  |---+-------+--------------------------------------+---------+----------+--------+------------------+------------------+--------+--------------|
+  |   |    3. | Remove the tasks that running        | [[https://gitlab.com/vlead-systems/cluster-automation/issues/31][#31]]     | 1        | 1      | [2017-11-15 Wed] | [2017-11-15 Wed] | Done   | Siva Shanker |
+  |   |       | in the Background in ADS server      |         |          |        |                  |                  |        |              |
+  |---+-------+--------------------------------------+---------+----------+--------+------------------+------------------+--------+--------------|
+  |   | Total |                                      |         | 10       | 2      |                  |                  |        |              |
+  | ^ |       |                                      |         | est      | act    |                  |                  |        |              |
+  |---+-------+--------------------------------------+---------+----------+--------+------------------+------------------+--------+--------------|
 #+TBLFM: $2=@#+1
 #+TBLFM: $est=vsum(@II+1..@-1)
 #+TBLFM: $act=vsum(@II+1..@-1)
