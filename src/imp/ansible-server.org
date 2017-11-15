@@ -894,11 +894,6 @@ dependencies:
       regexp: "SUBNET_BRIDGE = .*"  
       line: 'SUBNET_BRIDGE = "br1"'
       state: present
-  
-   - name: Start manage_service &
-     shell: ./manage_services.sh
-     args: 
-      chdir: ovpl/
            
    - name: Google keys
      replace:
