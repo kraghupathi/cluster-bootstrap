@@ -24,13 +24,13 @@
 
 #!/usr/bin/env bash
 # Path for common variables for cluster automation playbooks
-COMMONVARS_PATH=build/code/imp/roles/common-vars/vars/main.yml
-HOST_PATH=build/code/imp/hosts 
+COMMONVARS_PATH=~/cluster-automation/build/code/imp/roles/common-vars/vars/main.yml
+HOST_PATH=~/cluster-automation/build/code/imp/hosts 
 
 sed -i '/proxy=.*/d' /etc/yum.conf
-#echo "proxy=$HTTP_PROXY" >> /etc/yum.conf
-export http_proxy=$HTTP_PROXY
-export https_proxy=$HTTPS_PROXY
+
+var=$(grep -ir "^config_server_ip" $COMMONVARS_PATH | awk '{print $2}')
+sed -i "/[config-server]/{ n; s/10.2.*/$var/; }" $HOST_PATH
 
 ## Install required packages
 yum install epel-release -y
