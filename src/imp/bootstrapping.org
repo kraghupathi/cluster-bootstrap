@@ -72,6 +72,14 @@ CORKSCREW_PROXY=proxy.iiit.ac.in
 #Set network proxy port 
 PROXY_PORT=8080
 
+
+##Google OAuth client authentication. 
+##Follow the link https://developers.google.com/identity/sign-in/web/devconsole-project to 
+##get following variable values. These are needed for configuring ADS server. 
+## Default values are for =base10= cluster name
+CONSUMER_KEY="692236489889-a83u80r7u2oh2ng9u67d0411ao3o4ric.apps.googleusercontent.com"
+CONSUMER_SECRET="QzZkM8ciJweOtvzx-93qkX4z"
+
 # Path for common variables for cluster automation playbooks
 COMMONVARS_PATH=build/code/imp/roles/common-vars/vars/main.yml
 HOST_PATH=build/code/imp/hosts 
@@ -104,6 +112,8 @@ cp $COMMONVARS_PATH $COMMONVARS_PATH.bkp
 
 # # #Updating variables in common-vars of cluster-automation
 
+sed -i "s|consumer_key:.*|consumer_key: $CONSUMER_KEY|g" "$COMMONVARS_PATH"
+sed -i "s|consumer_secret:.*|consumer_secret: $CONSUMER_SECRET|g" "$COMMONVARS_PATH"
 sed -i "s|http_proxy_name:.*|http_proxy_name: $HTTP_PROXY|g" "$COMMONVARS_PATH"
 sed -i "s|https_proxy_name:.*|https_proxy_name: $HTTPS_PROXY|g" "$COMMONVARS_PATH"
 sed -i "s|hostmachine_ip:.*|hostmachine_ip: $HOSTMACHINE_IP|g" "$COMMONVARS_PATH"
