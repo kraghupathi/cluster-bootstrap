@@ -33,3 +33,8 @@
      =~/cluster-automation/build/code/imp/roles/common_vars/vars/main.yml=
      with the appropriate variable values
   9. Run =bootstrap.sh=
+     #+BEGIN_EXAMPLE
+     cd ~/cluster-automation
+     sh bootstrap.sh <machine root password>
+     #+END_EXAMPLE
+

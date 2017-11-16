@@ -26,6 +26,8 @@
 # Path for common variables for cluster automation playbooks
 COMMONVARS_PATH=~/cluster-automation/build/code/imp/roles/common-vars/vars/main.yml
 HOST_PATH=~/cluster-automation/build/code/imp/hosts 
+PASSWORD_HOSTMACHINE=$1
+
 
 var=$(grep -ir "^config_server_ip" $COMMONVARS_PATH | awk '{print $2}')
 sed -i "/[config-server]/{ n; s/10.2.*/$var/; }" $HOST_PATH
