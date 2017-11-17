@@ -305,6 +305,7 @@ Host gitlab.com
 
     - name: running install_openvz.sh shell script. May take 5 to 10 minutes. NOTE, System WILL BE REBOOTING AUTOMATICALLY after this TASK
       command: ./install_openvz.sh
+      environment: "{{proxy_env}}"
       register: out
       args:
         chdir: ~/setup-ovpl-centos/scripts/
