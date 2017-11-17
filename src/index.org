@@ -21,6 +21,8 @@
   - [[./req/index.org][Requirements]]
 * Implementation
   - [[./imp/index.org][Implementation]]
+* Installation manual
+  - [[./imp/installation-steps.org][Installation manual]]
 * Bootstrapping steps
   - [[./imp/bootstrapping.org][Bootstrapping steps]]
     These steps are needed to setup cluster using ansible scripts

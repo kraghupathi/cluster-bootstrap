@@ -24,4 +24,4 @@
   - [[./rsnapshot-server.org][rsnapshot]]
   - [[./ads.org][ADS service]]
   - [[./main.org][Main playbook]]
-
+  - [[./installaion-steps.org][A Shell script to bootstrap the OpenVZ cluster]]

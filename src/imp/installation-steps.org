@@ -1,0 +1,40 @@
+#+Title: Installation steps 
+#+Author: Systems Team
+#+SETUPFILE: ../org-templates/level-1.org
+#+TAGS: boilerplate(b)
+#+EXCLUDE_TAGS: boilerplate
+#+OPTIONS: ^:nil
+* Introduction
+  This document contains the installation steps to setup the
+  whole OpenVZ cluster.
+* Requirements
+  - A machine/VirualBox with CentOS-6
+    - Configuration of system
+  - Three free LAN IPs 
+    1. One for Host machine( Default IP of the Host machine)
+    2. One for Router Container/Server
+    3. One for Ansible/config Sever/Container.
+* Steps
+  1. Boot the machine
+  2. Login to the machine
+  3. Login to root account
+  4. Export network proxy if any
+  5. Install git
+     #+BEGIN_EXAMPLE
+     yum install git -y
+     #+END_EXAMPLE
+  6. Clone the cluster-automation repository
+    #+BEGIN_EXAMPLE
+    git clone https://github.com/vlead/cluster-automation.git
+    cd cluster-automation
+    #+END_EXAMPLE
+  7. Run make
+  8. Edit the file
+     =~/cluster-automation/build/code/imp/roles/common_vars/vars/main.yml=
+     with the appropriate variable values
+  9. Run =bootstrap.sh=
+     #+BEGIN_EXAMPLE
+     cd ~/cluster-automation
+     sh bootstrap.sh <machine root password>
+     #+END_EXAMPLE
+
