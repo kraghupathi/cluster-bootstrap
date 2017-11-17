@@ -65,9 +65,8 @@
   - debug: var=out.stdout_lines
 
   - name: install the latest version of libselinux-python
-    yum:
-     name: libselinux-python
-     state: latest
+    yum: name=libselinux-python  state=installed
+    environment: "{{proxy_env}}"
    
   - name: Make ifcfg-eth0 file empty if there is any
     copy: 
