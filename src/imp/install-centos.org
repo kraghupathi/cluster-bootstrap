@@ -53,9 +53,9 @@ NUMA node0 CPU(s):     0-7
     format the hard disk and re-partition as GPT.
 
 * Installation of Other packages
-  1. Ansible.
-  2. [[https://gist.github.com/jclosure/2732898f35adaf4a8bb79f7805bc7d87][Emacs ]], [[https://www.tecmint.com/install-git-centos-fedora-redhat/][Reference]]
-  3. [[https://stackoverflow.com/a/21820716][git]]
+  1. Ansible. (V2.4.2)
+  2. [[https://gist.github.com/jclosure/2732898f35adaf4a8bb79f7805bc7d87][Emacs ]], [[https://www.tecmint.com/install-git-centos-fedora-redhat/][Reference]] (V24.5)
+  3. [[https://stackoverflow.com/a/21820716][git]] (2.15)
 
 
 
