@@ -20,10 +20,13 @@
   Three partitions - =/boot=, =swap= and =/= are made.
   Refer to an [[https://superuser.com/a/522998][explanation]] why these partitions are
   necessary.  
-
   - The size of boot is set to 1 GB.  Though CentOS
     [[https://www.centos.org/docs/5/html/5.2/Installation_Guide/s2-diskpartrecommend-s390.html][recommends]] 100MB, the boot partition is bumped to 1 GB.
   - The size of swap is set to 16 + 2 = 18 GB. [[https://itsfoss.com/swap-size/][Reference]]
+  - Another partition =/boot/efi= is necessary for centos to
+    [[https://www.centos.org/forums/viewtopic.php?t=4444][support]](regamboa) [[https://whatis.techtarget.com/definition/Unified-Extensible-Firmware-Interface-UEFI][UEFI]].  This requires GPT(GUID
+    partition tables) to be present.  If MBR is required,
+    format the hard disk and re-partition as GPT.
 
 * Installation of Other packages
   1. Ansible.
