@@ -1,0 +1,37 @@
+#+TITLE: Steps to install Centos 6.7
+#+AUTHOR: VLEAD
+#+DATE: [2018-04-10 Tue]
+#+SETUPFILE: ./org-templates/level-0.org
+#+TAGS: boilerplate(b)
+#+EXCLUDE_TAGS: boilerplate
+#+OPTIONS: ^:nil
+
+* Introduction
+  This document provides steps to install centos 6.7.
+
+* Selection of the Media
+  A bootable CD with centos 6.7 iso is used to install
+  centos 6.7
+
+* Machine Configuration
+  
+
+* Partitions
+  Three partitions - =/boot=, =swap= and =/= are made.
+  Refer to an [[https://superuser.com/a/522998][explanation]] why these partitions are
+  necessary.  
+
+  - The size of boot is set to 1 GB.  Though CentOS
+    [[https://www.centos.org/docs/5/html/5.2/Installation_Guide/s2-diskpartrecommend-s390.html][recommends]] 100MB, the boot partition is bumped to 1 GB.
+  - The size of swap is set to 16 + 2 = 18 GB. [[https://itsfoss.com/swap-size/][Reference]]
+
+* Installation of Other packages
+  1. Ansible.
+  2. [[https://gist.github.com/jclosure/2732898f35adaf4a8bb79f7805bc7d87][Emacs]]
+  3. [[https://stackoverflow.com/a/21820716][git]]
+
+
+
+
+
+  
